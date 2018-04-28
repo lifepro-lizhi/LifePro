@@ -22,7 +22,7 @@ class CommentManager(models.Manager):
 
 
 class Comment(MPTTModel):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField()
     create_date = models.DateField(auto_now=True)
     # parent = models.ForeignKey("self", blank=True, null=True)
