@@ -14,6 +14,6 @@ class ReadingInfo(models.Model):
     did_like = models.BooleanField(default=False)
     user_comment_count = models.IntegerField(default=0)
 
-    content_type = models.ForeignKey(ContentType)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
