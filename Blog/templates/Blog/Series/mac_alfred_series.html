@@ -1,0 +1,39 @@
+{% extends "Blog/Series/blog_sidebar_base.html" %}
+
+{% block SeriesTitle %}
+    <h3 class="text-center">玩转 Mac Alfred</h3>
+{% endblock %}
+
+{% block SeriesCatalog %}
+    <li class="active">
+        <a href="#">Alfred概述</a>
+    </li>
+    <li class="active">
+        <a href="#">文件搜索</a>
+    </li>
+    <li class="active">
+        <a href="#">网络搜索</a>
+    </li>
+    <li class="active">
+        <a href="#">网页书签、计算器和字典</a>
+    </li>
+    <li class="active">
+        <a href="#">剪切板历史记录</a>
+    </li>
+    <li class="active">
+        <a href="#">Snippets文字扩展</a>
+    </li>
+    <li class="active">
+        <a href="#">iTunes Mini Player</a>
+    </li>
+    <li class="active">
+        <a href="#">系统命令和终端</a>
+    </li>
+    <li class="active">
+        <a href="#">Workflow</a>
+    </li>
+{% endblock %}
+
+{% block SeriesContent%}
+    {{ blog.content }}
+{% endblock %}

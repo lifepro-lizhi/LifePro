@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+ {% load bootstrap4 %}
+{% load widget_tweaks %}
+{% load static %}
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+        <link rel="stylesheet" href="{% static 'Blog/css/blog_page_style.css' %}">
+
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'blog/css/blog_form_style.css' %}">
+
+        <!-- for pagedown -->
+        {{ form.media }}
+    </head>
+    <body>
+        <div class="row">
+            <!-- 编辑区 -->
+            <div class="col-sm-6">
+                <form  method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% for field in form.visible_fields %}
+                        <div class="form-group">
+                            <!-- {{ field|add_class:'form-control' }} -->
+                             {% render_field field class="form-control" style="border:none" height="100%" %}
+                            <hr>
+                        </div>
+                        {% if field.name == 'title' %}
+                            <input class="btn btn-primary" type="submit" value="Save">
+                            <br>
+                        {% endif %}
+                    {% endfor %}
+                </form>
+            </div>
+
+            <!-- Markdown Preview区 -->
+            <div id="preview" class="col-sm-6">
+                    <p class="display-4 font-weight-bold text-center" id="preview-title"></h3>
+                    <p id="preview-content"></p>
+            </div>
+        </div>
+
+        <!-- JQuery -->
+        <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+
+        <!-- Marked CDN -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.17/marked.js"></script>
+
+        <!-- 让Preview的文本变为Markdown -->
+        <script type="text/javascript">
+            var titleItem = $("#id_title")
+            $("#preview-title").text(titleItem.val())
+
+            var contentInput = $("#id_content")
+            var titleInput = $("#id_title")
+
+            function setContent(value)
+            {
+                var markedContent = marked(value)
+                $("#preview-content").html(markedContent)
+                $("#preview-content img").each(function(){
+                    $(this).addClass("img-fluid")
+                })
+            }
+
+            function setTitle(value)
+            {
+                $("#preview-title").text(value)
+            }
+
+            setContent(contentInput.val())
+
+            contentInput.keyup(function(){
+                setContent($(this).val())
+            })
+
+            titleInput.keyup(function(){
+                setTitle($(this).val())
+            })
+        </script>
+
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+        <!-- JQuery -->
+        <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    </body>
+</html>

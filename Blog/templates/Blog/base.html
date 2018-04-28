@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>LifePro</title>
+
+        <!-- Bootstrap4 CDN -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+        <link rel="stylesheet" href="{% static 'Blog/css/base_page.css' %}">
+        <link rel="stylesheet" href="{% static 'Blog/css/login_custom.css' %}">
+        <link href='https://fonts.googleapis.com/css?family=Kalam' rel='stylesheet'>
+
+        <!-- 各个子模板需要加载的CSS文件 -->
+        {% block head_style_css %}
+        {% endblock %}
+    </head>
+    <body>
+        <!-- 有的子模板需要有jumbotron -->
+        {% block jumbotron_content %}
+        {% endblock %}
+
+        <!-- 顶部Navbar -->
+        <nav class="navbar fixed-top navbar-expand-sm navbar-dark text-white">
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#nav-content">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a href="{% url 'home' %}" class="navbar-brand" style="font-family:Kalam">LifePro</a>
+            <div class="collapse navbar-collapse" id="nav-content" >
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link text-white hvr-float-shadow" href="{% url 'blog:tutorials_view' %}" >Tutorials</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white hvr-float-shadow" href="{% url 'blog:category_blog_list' 'C' %}" >C/C++</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white hvr-float-shadow" href="{% url 'blog:category_blog_list' 'UNIX' %}" >UNIX</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white hvr-float-shadow" href="{% url 'blog:category_blog_list' 'Python' %}" >Python</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'blog:category_blog_list' 'Django' %}" class="nav-link text-white hvr-float-shadow">Django</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'blog:category_blog_list' 'MachineLearning' %}" class="nav-link text-white hvr-float-shadow">Machine Learning</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'blog:category_blog_list' 'OpenGL' %}" class="nav-link text-white hvr-float-shadow">OpenGL</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'blog:category_blog_list' 'Network' %}" class="nav-link text-white hvr-float-shadow">Network</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'blog:category_blog_list' 'PostgreSQL' %}" class="nav-link text-white hvr-float-shadow">PostgreSQL</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'blog:category_blog_list' 'Unity' %}" class="nav-link text-white hvr-float-shadow">Unity</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'blog:category_blog_list' 'Mac' %}" class="nav-link text-white hvr-float-shadow">Mac</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'blog:category_blog_list' 'Japanese'%}" class="nav-link text-white hvr-float-shadow">日本語</a>
+                    </li>
+                    {% if user.is_superuser %}
+                    <li class="nav-item"><a href="{% url 'blog:blog_create' %}" class="nav-link">New</a></li>
+                    <li class="nav-item"><a href="{% url 'blog:draft_list' %}" class="nav-link">DraftList</a></li>
+                    {% endif %}
+                </ul>
+                <ul class="navbar-nav mr-3">
+                    <!-- 如果用户已经登录，则显示用户按钮；否则显示Login和Register按钮 -->
+                    {% if user.is_authenticated %}
+                        <li>
+                            <img src="{% static 'Blog/images/logo/user_icon.png' %}" width="40px">
+                            <li class="nav-item">
+                                <div class="dropdown show">
+                                    <a class="nav-link lead text-white dropdown-toggle" href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ user.username }}</a>
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink" style="min-width:30px; background-color: #ffffff;">
+                                        <a class="dropdown-item text-primary" href="{% url 'users:user_profile' pk=user.userinfo.id %}">个人主页</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item text-primary" href="{% url 'users:user_logout' %}">Logout</a>
+                                    </div>
+                                </div>
+                            </li>
+                        </li>
+                    {% else %}
+                        <li class="nav-item"><button class="btn btn-light mr-2 hvr-float-shadow" type="button" data-toggle="modal" data-target="#LoginModal">Login</button></li>
+                            <li class="nav-item"><button class="btn btn-light hvr-float-shadow" type="button" data-toggle="modal" data-target="#RegisterModal">Register</button></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+
+        <div id="LoginModal" class="modal fade text-center">
+            <div class="modal-dialog">
+                <div class="col-lg-8 col-sm-8 col-12 main-section">
+                    <div class="modal-content">
+                        <div class="col-lg-12 col-sm-12 col-12 user-img">
+                            <img src="{% static 'Blog/images/logo/man.png' %}">
+                        </div>
+                        <div class="col-lg-12 col-sm-12 col-12 user-name">
+                            <h1>User Login</h1>
+                            <button type="button" class="close" data-dismiss="modal">×</button>
+                        </div>
+                        <div class="col-lg-12 col-sm-12 col-12 form-input">
+                            <form action="{% url 'users:user_login' %}" method="post">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="Username" name="username">
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" class="form-control" placeholder="Password" name="password">
+                                </div>
+                                <button type="submit" class="btn btn-success">Login</button>
+                            </form>
+                        </div>
+                        <div class="col-lg-12 col-sm-12 col-12 link-part">
+                            <a href="http://www.nicesnippets.com" target="_blank" class="float-right">Forgot Password?</a>
+                            <a href="http://www.nicesnippets.com" target="_blank" class="float-left" data-toggle="modal" data-target="#RegisterModal" >Register</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="RegisterModal" class="modal fade text-center">
+            <div class="modal-dialog">
+                <div class="col-lg-8 col-sm-8 col-12 main-section">
+                    <div class="modal-content">
+                        <div class="col-lg-12 col-sm-12 col-12 user-img">
+                            <img src="{% static 'Blog/images/logo/man.png' %}">
+                        </div>
+                        <div class="col-lg-12 col-sm-12 col-12 user-name">
+                            <h1>User Register</h1>
+                            <button type="button" class="close" data-dismiss="modal">×</button>
+                        </div>
+                        <div class="col-lg-12 col-sm-12 col-12 form-input">
+                            <form action="{% url 'users:register' %}" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="Username" name="username">
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" class="form-control" placeholder="Password" name="password">
+                                </div>
+                                <div class="form-group">
+                                    <input type="email" class="form-control" placeholder="Email" name="email">
+                                </div>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="portrait_input" name="portrait" accept=".png, .jpg, .jpeg">
+                                    <label class="custom-file-label text-left text-secondary" for="customFile">上传头像（可选）</label>
+                                 </div>
+
+                                <!-- <div class="form-group">
+                                    <input type="file" class="form-control" name="portrait" accept=".png, .jpg, .jpeg">
+                                </div> -->
+                                <br><br>
+                                <button type="submit" class="btn btn-success">Register</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 子模板正文内容-->
+        {% block content %}
+        {% endblock %}
+
+        {% block userinfo %}
+        {% endblock %}
+
+    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
+    <!-- JQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+    <!-- 当上传头像后，更改input的label值 -->
+    <script type="text/javascript">
+    $(document).ready(function(){
+        $('#portrait_input').on('change', function() {
+            let fileName = $(this).val().split('\\').pop()
+             $('.custom-file-label').text(fileName)
+    })})
+    </script>
+
+
+    {% block script_block %}
+    {% endblock %}
+
+
+
+    <!-- <script src="{% static 'Blog/script/jquery.bootstrap-autohidingnavbar.js' %}"></script>
+
+    <script>
+      $(".navbar-fixed-top").autoHidingNavbar();
+    </script> -->
+
+
+    </body>
+
+
+</html>

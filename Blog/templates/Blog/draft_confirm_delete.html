@@ -1,0 +1,16 @@
+{% extends "Blog/base.html" %}
+
+{% block head_style_css %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static "Blog/css/blog_page_style.css" %}">
+{% endblock %}
+
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        <p>Draft Confirm Delete? {{ draft }}</p>
+        <input type="submit" value="Yes" class="btn btn-danger">
+        <a href="{% url 'blog:draft_list' %}" class="btn btn-warning"><input type="button" name="" value="No"></a>
+    </form>
+{% endblock %}

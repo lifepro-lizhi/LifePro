@@ -1,0 +1,11 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+
+<form method="post">
+    {% csrf_token %}
+    <p>Confirm Delete? {{ comment }}</p>
+    <input type="submit" name="" value="Yes">
+    <a href="{% url 'blog:blog_list' %}"><input type="button" name="" value="No"></a>
+</form>
+{% endblock %}

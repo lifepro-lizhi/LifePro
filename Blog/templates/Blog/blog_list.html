@@ -1,0 +1,326 @@
+{% extends "blog/base.html" %}
+
+
+{% block head_style_css %}
+{% load static %}
+<link rel="stylesheet" href="{% static "blog/css/list_page_style.css" %}">
+<link href='https://fonts.googleapis.com/css?family=Kalam' rel='stylesheet'>
+{% endblock %}
+
+
+{% block jumbotron_content %}
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <br><br><br>
+            <div class="text-center" >
+            {# <img src="{% static 'Blog/images/test.png' %}" width="15%" class="float-left" > #}
+            <h1 class="text-white display-1 text-center" style="display:inline;">Life Pro</h1>
+            {# <img src="{% static 'Blog/images/test2.png' %}" width="15%"  class="float-right"> #}
+            </div>
+            <hr>
+            <p class="text-white text-center lead" style="font-family:Kalam">Life is more Professional than yesterday</p>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block content %}
+{% if not blogs_page %}
+    {% if request.method == 'GET' %}
+        <h2>No blog</h2>
+    {% endif %}
+    <h2>No Blog has been created! <a href="{% url 'blog:blog_create' %}">New</a></h2>
+{% else %}
+    <div class="row justify-content-md-center">
+        <div class="col-sm-7 ml-auto">
+        {% for blog in  blogs_page %}
+            <div class="card">
+                <div class="card-header text-muted d-inline">
+                    {% if blog.category == 'Python' %}
+                        <img src="{% static 'Blog/images/logo/python.png' %}" class="float-left rounded" height="4%" width="4%" alt="">
+                        {% elif blog.category == 'Django' %}
+                        <img src="{% static 'Blog/images/logo/django.png' %}" class="float-left rounded"  width="4%" alt="">
+                        {% elif blog.category == 'MachineLearning' %}
+                        <img src="{% static 'Blog/images/logo/machine learning.png' %}" class="float-left rounded" height="4%" width="4%" alt="">
+                        {% elif blog.category == 'PostgreSQL' %}
+                        <img src="{% static 'Blog/images/logo/postgresql.png' %}" class="float-left rounded" height="4%" width="4%" alt="">
+                        {% elif blog.category == 'Unity' %}
+                        <img src="{% static 'Blog/images/logo/unity.png' %}" class="float-left rounded" height="4%" width="4%" alt="">
+                        {% elif blog.category == 'Mac' %}
+                        <img src="{% static 'Blog/images/logo/mac.png' %}" class="float-left rounded" height="4%" width="4%" alt="">
+                        {% elif blog.category == 'Japanese' %}
+                        <img src="{% static 'Blog/images/logo/japanese.png' %}" class="float-left rounded" height="4%" width="4%" alt="">
+                    {% endif %}
+
+                    <h5 class="text-center mr-4">
+                        {% if blog.category == 'Japanese' %}
+                            日本語
+                        {% else %}
+                            {{ blog.category }}
+                        {% endif %}
+                    </h5>
+                </div>
+                <div class="card-body text-center">
+                    <a href="{% url 'blog:blog_detail' pk=blog.pk %}" id="blog_title_link" class="card-link hvr-grow "><h3 class="card-title text-center ">{{ blog.title }}</h3></a><br><br>
+                    <h6 class="card-subtitle text-muted text-center">
+                        <div class="pr-5" style="display:inline;">
+                            <img src="{% static 'Blog/images/logo/date_icon.png'%}" width="30px" alt="">
+                            {{ blog.publish_date|date:"Y.m.d" }}
+                        </div>
+                        <div class="pr-5" style="display:inline;">
+                            <img src="{% static 'Blog/images/logo/comment_icon.png'%}" width="30px" alt="">
+                            Comment: {{ blog.comments.count }}
+                        </div>
+                        <div class="pr-5" style="display:inline;">
+                            <img src="{% static 'Blog/images/logo/like_icon.png'%}" width="30px" alt="">
+                            Like: {{ blog.likes.count }}
+                        </div>
+                        <div class="" style="display:inline;">
+                            <img src="{% static 'Blog/images/logo/read_icon.png'%}" width="30px" alt="">
+                            Read: {{ blog.reading_info.count }}
+                        </div>
+                    </h6>
+                    <br>
+                    <img src="{{ blog.cover_image.url }}" class="img-fluid card-img-top" alt=""><br><br>
+                    <p class="card-text text-left">{{ blog.cover_breif }}</p>
+                    <a href="{% url 'blog:blog_detail' pk=blog.pk %}" class="card-link "><p class="text-center font-weight-bold hvr-underline-from-center">Read More</p></a>
+                </div>
+            </div>
+            <br>
+            <br>
+        {% endfor %}
+
+
+        {% comment %}
+
+        <div class="pagination justify-content-md-center">
+            <span class="step-links">
+            {% if blogs_page.has_previous %}
+                {# <a href="?page=1">1</a> #}
+                <a href="?page={{ blogs_page.previous_page_number }}" class="btn btn-primary float-left">&laquo; </a>
+            {% endif %}
+
+            <span class="current">
+                page {{ blogs_page.number }} of {{ blogs_page.paginator.num_pages }}
+            </span>
+
+            {% if blogs_page.has_next %}
+                <a href="?page={{ blogs_page.next_page_number }}" class="btn btn-primary mr-0">&raquo;</a>
+                {# <a href="?page={{ blogs_page.paginator.num_pages }}">last</a> #}
+            {% endif %}
+            </span>
+        </div>
+        {% endcomment %}
+
+
+        {# 分页器 #}
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-md-center">
+                {# 在每种情况下，分页器的首尾都有上一页和下一页按钮（如果存在的情况下）#}
+                {% if blogs_page.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ blogs_page.previous_page_number }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                        </a>
+                    </li>
+                {% endif %}
+
+                {# 分页器分为两种情况，一种是页数小于或等于10，这时将全部的页码展开，中间没有省略号“...”；#}
+                {# 另一种情况是页码大于10，这时又要根据当前所在的页码位置分为几个具体情况，来放置省略号“...” #}
+                {# 第一种情况：页码小于或等于10 #}
+                {% if blogs_page.paginator.num_pages <= 10 %}
+                    {% for page in blogs_page.paginator.page_range %}
+                        {# 当前页要用active标识出来 #}
+                        {% if page == blogs_page.number %}
+                            <li class="page-item active">
+                                <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+                            </li>
+                        {% else %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+
+                {# 第二种情况：页码大于10 #}
+                {% elif blogs_page.paginator.num_pages > 10 %}
+                    {# 无论哪种情况，首尾都分别是第一页和最后一页的页码 #}
+                    {% if 1 == blogs_page.number %}
+                        <li class="page-item active">
+                            <a class="page-link" href="?page=1">1</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page=1">1</a>
+                        </li>
+                    {% endif %}
+
+                    {# 如果当前页码为1，2，3，则没有第一个省略号，而是依次将1，2，3页码展开 #}
+                    {% if blogs_page.number < 4 %}
+                        {% for page in up_to_current_page_list|slice:"1:" %}
+                            {# 当前页要用active标识出来 #}
+                            {% if page == blogs_page.number %}
+                                <li class="page-item active">
+                                    <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+                                </li>
+                            {% else %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+
+                        {# 当前页码小于4的情况下的第一个省略号 #}
+                        <li class="page-item">
+                            <div class="page-link" href="">...</div>
+                        </li>
+                    {# 如果当前页码大于或等于4 #}
+                    {% else %}
+                        {# 当前页码大于或等于4的情况下的第一个省略号 #}
+                        <li class="page-item">
+                            <div class="page-link" href="">...</div>
+                        </li>
+
+                        {# 当前页码的上一个页码 #}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ blogs_page.previous_page_number }}">{{ blogs_page.previous_page_number }}</a>
+                        </li>
+
+                        {# 当前页码 #}
+                        <li class="page-item active">
+                            <a class="page-link" href="?page={{ blogs_page.number }}">{{ blogs_page.number }}</a>
+                        </li>
+
+                        {# 如果当前页码有下一页，分为三种情况：#}
+                        {# 1.下一页不为倒数第一或第二页，这时下一页和最后一页之间要有省略号；#}
+                        {# 2.下一页为倒数第二页，则下一页和最后一页之间没有省略号；#}
+                        {# 3.下一页为最后一页 #}
+                        {% if  blogs_page.has_next %}
+                            {% if blogs_page.next_page_number != blogs_page.paginator.num_pages %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ blogs_page.next_page_number }}">{{ blogs_page.next_page_number }}</a>
+                                </li>
+                            {% endif %}
+
+                            {# 如果下一页不为倒数第二页，则下一页和最后一页之间要加省略号 #}
+                            {% if blogs_page.next_page_number|add:1 < blogs_page.paginator.num_pages %}
+                                <li class="page-item">
+                                    <div class="page-link" href="">...</div>
+                                </li>
+                            {% endif %}
+
+                        {% endif %}
+
+                    {% endif %}
+                    {# 如果当前页不为最后一页，则始终显示最后一页的页面 #}
+                    {% if blogs_page.number != blogs_page.paginator.num_pages %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page=11">{{ blogs_page.paginator.num_pages }}</a>
+                        </li>
+                    {% endif %}
+                {% endif %}
+
+                {# 无论哪种情况，最右边都要有下一页按钮的标识（如果存在下一页的情况下） #}
+                {% if blogs_page.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ blogs_page.next_page_number }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+
+        <div class="col-sm-3 mr-auto">
+            <div class="card ml-auto text-center" style="max-width: 25rem;">
+                <!-- <h3 class="card-header">
+                    Cold Feet?
+                </h3> -->
+                <img class="card-img-top" src="{% static 'Blog/images/my_photo.JPG' %}" alt="My Portrait">
+                <div class="card-body">
+                    <div style="white-space:nowrap" class="text-left">
+                        <img src="{% static 'Blog/images/logo/email.png' %}" alt="" width="35px" style="display:inline;" class="img-fluid">
+                        <p class="card-text" style="display:inline;">&nbsp;&nbsp;&nbsp;lifepro.lizhi@gmail.com</h4>
+                    </div>
+                    <hr>
+                    <div style="white-space:nowrap" class="text-left">
+                        <img src="{% static 'Blog/images/logo/weixin.png' %}" alt=""  width="35px"style="display:inline;" class="img-fluid">
+                        <p class="card-text" style="display:inline;">&nbsp;&nbsp;&nbsp;公众号：Tech修行</p>
+                    </div>
+                    <hr>
+                    <div  class="text-left">
+                        <img src="{% static 'Blog/images/logo/attention.png' %}" alt=""  width="35px"style="display:inline;" class="img-fluid">
+                        <p class="card-text" style="display:inline;">&nbsp;&nbsp;&nbsp;网站内容全部为本人原创，</p>
+                        <p class="card-text" style="display:inline;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;转载请注明出处</p>
+                    </div>
+
+
+                </div>
+            </div>
+
+            <br><br><br>
+
+            <div class="search-box">
+                <form method="get" action="{% url 'blog:search_blog_list' %}">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Enter search keyword" aria-label="Search term" aria-describedby="basic-addon" name="q" value="{{ request.GET.q }}">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="submit">Search</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <br><br><br>
+
+            {# 显示阅读量排名前10的文章 #}
+            <div class="text-muted">
+                <p class="text-primary lead">Reading Top 10</p>
+                <ol class="list-group list-group-flush">
+                {% for blog_info in top_reading_list %}
+                    <li class="list-group-item"><a id="side-list" class="" href="{% url 'blog:blog_detail' pk=blog_info.id %}">{{ forloop.counter }}.&nbsp;&nbsp;&nbsp;{{ blog_info.title }} ({{ blog_info.count }})</a></li>
+                {% endfor %}
+                </ol>
+            </div>
+
+            <br><br><br>
+
+            {# 评论排名前10的文章 #}
+            <div class="text-muted">
+                <p class="text-primary lead">Comments Top 10</p>
+                <ol class="list-group list-group-flush">
+                {% for blog_info in top_comment_list %}
+                    <li class="list-group-item"><a id="side-list" class="" href="{% url 'blog:blog_detail' pk=blog_info.id %}">{{ forloop.counter }}.&nbsp;&nbsp;&nbsp;{{ blog_info.title }} ({{ blog_info.count }})</a></li>
+                {% endfor %}
+                </ol>
+            </div>
+
+            {# Like排名前10的文章 #}
+            <div class="text-muted">
+                <p class="text-primary lead">Like Top 10</p>
+                <ol class="list-group list-group-flush">
+                {% for blog_info in top_like_list %}
+                    <li class="list-group-item"><a id="side-list" class="" href="{% url 'blog:blog_detail' pk=blog_info.id %}">{{ forloop.counter }}.&nbsp;&nbsp;&nbsp;{{ blog_info.title }} ({{ blog_info.count }})</a></li>
+                {% endfor %}
+                </ol>
+            </div>
+
+            <br><br><br>
+
+            {# 最近发布的文章 #}
+            <div class="text-muted">
+                <p class="text-primary lead">Recent Post</p>
+                <ol class="list-group list-group-flush">
+                {% for blog in recent_post_list %}
+                    <li class="list-group-item"><a id="side-list" class="" href="{% url 'blog:blog_detail' pk=blog.id %}">{{ forloop.counter }}.&nbsp;&nbsp;&nbsp;{{ blog.title }}</a></li>
+                {% endfor %}
+                </ol>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{% endblock %}

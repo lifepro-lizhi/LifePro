@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+{% load bootstrap4 %}
+{% load widget_tweaks %}
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Blog Publish</title>
+    </head>
+    <body>
+        <form  method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ publish_form.as_p }}
+            <input type="submit" value="Publish">
+        </form>
+
+        <!-- <div class="row">
+            <div class="col-sm-6">
+                <form  method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% for field in publish_form.visible_fields %}
+                        <div class="form-group">
+                            {{ filed.name }}
+                             {% render_field field class="form-control"%}
+                        </div>
+                    {% endfor %}
+                    <input class="btn btn-primary" type="submit" value="Save">
+                </form>
+            </div>
+        </div> -->
+    </body>
+</html>

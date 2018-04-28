@@ -1,0 +1,42 @@
+{% extends "Blog/base.html" %}
+
+{% block head_style_css %}
+{% load static %}
+<link rel="stylesheet" href="{% static "blog/css/list_page_style.css" %}">
+{% endblock %}
+
+{% block  userinfo %}
+<br><br><br>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-sm-5 text-center form-input">
+                <br>
+                {% if user_info.portrait == "" %}
+                    <img src="/media/Blog/portraits/user-512.png" class="rounded text-center" alt="user portrait" width="200px">
+                {% else %}
+                    <img src="{{ user_info.portrait.url }}" class="rounded text-center" alt="user portrait" width="200px">
+                {% endif %}
+                <br><br>
+                <h4>{{ user.username }}</h4>
+                <br>
+                <form action="{% url 'users:user_profile_update' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" class="form-control" name="username" value="{{ user.username }}">
+                    <div class="form-group">
+                        <input type="password" class="form-control" placeholder="Password" name="password">
+                    </div>
+                    <div class="form-group">
+                        <input type="email" class="form-control" placeholder="Email" name="email">
+                    </div>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="portrait_input" name="portrait" accept=".png, .jpg, .jpeg">
+                        <label class="custom-file-label text-left text-secondary" for="customFile">上传头像（可选）</label>
+                     </div>
+                    <br><br>
+                    <button type="submit" class="btn btn-primary">更新</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

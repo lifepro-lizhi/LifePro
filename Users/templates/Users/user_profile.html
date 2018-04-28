@@ -1,0 +1,57 @@
+{% extends "Blog/base.html" %}
+
+{% block head_style_css %}
+{% load static %}
+<link rel="stylesheet" href="{% static "blog/css/list_page_style.css" %}">
+{% endblock %}
+
+{% block userinfo %}
+<br><br><br><br>
+    <div class="container col-sm-4">
+        <div class="text-center">
+            {# 如果用户没有上传头像，则使用默认头像 #}
+            {% if user_info.portrait == "" %}
+                <img src="/media/Blog/portraits/user-512.png" class="rounded text-center" alt="user portrait" width="200px">
+            {% else %}
+                <img src="{{ user_info.portrait.url }}" class="rounded text-center" alt="user portrait" width="200px">
+            {% endif %}
+        </div>
+
+        <br><br>
+
+        <table class="table table-striped">
+            <tbody>
+                <tr>
+                  <td style="font-weight:bold">用户名</td>
+                  <td>{{ user_info.user.username }}</td>
+                </tr>
+                <tr>
+                  <td style="font-weight:bold">Email</td>
+                  <td>{{ user_info.user.email }}</td>
+                </tr>
+                <tr>
+                  <td style="font-weight:bold">上次登录</td>
+                  <td>{{ user_info.user.last_login|date:"Y.m.d"}}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="text-center">
+            <a href="{% url 'users:user_profile_update' %}" class="btn btn-primary">更新资料</a>
+        </div>
+
+        <br><br>
+
+
+        <h5>喜欢的文章：({{ liked_blogs_count }}篇)</h5>
+        <ul>
+        {% for blog in liked_blogs %}
+        <li><a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a></li>
+        {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

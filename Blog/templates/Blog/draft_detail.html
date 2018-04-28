@@ -1,0 +1,58 @@
+{% extends "Blog/base.html" %}
+
+{% block head_style_css %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'Blog/css/blog_page_style.css' %}">
+{% endblock %}
+
+{% block content %}
+<br>
+<br>
+<br>
+
+<div class="container">
+    <!-- Draft正文内容 -->
+    {% if draft.draft == True %}
+        <!-- 相关按钮 -->
+        <div class="container">
+            <a href="{% url "blog:publish" pk=draft.pk %}" name="button" class="btn btn-primary">Publish</a>
+            <a href="{% url "blog:draft_update" pk=draft.pk %}" name="button" class="btn btn-warning">Update</a>
+            <a href="{% url "blog:draft_delete" pk=draft.pk %}" name="button" class="btn btn-danger">Delete</a>
+        </div>
+
+        <!-- Draft正文 -->
+        <div class="container">
+            <div class="row justify-content-md-center">
+                <div class="col-sm-10">
+                    <h1 class="display-5 text-center font-weight-bold">{{ draft.title }}</h1>
+                    <p class="content-markdown">{{ draft.content }}</p>
+                </div>
+            </div>
+        </div>
+
+
+    {% endif %}
+    <hr>
+</div>
+
+<!-- JQuery -->
+<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+
+<!-- Marked CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.17/marked.js"></script>
+
+<!-- 让Blog的文本变为Markdown -->
+<script type="text/javascript">
+$(document).ready(function(){
+    $(".content-markdown").each(function(){
+        var content = $(this).text()
+        var contentMarkdown = marked(content)
+        $(this).html(contentMarkdown)
+    })
+    $(".content-markdown img").each(function(){
+        $(this).addClass("img-fluid")
+    })
+})
+</script>
+
+{% endblock %}

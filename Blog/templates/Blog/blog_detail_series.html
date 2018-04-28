@@ -1,0 +1,160 @@
+{% extends "Blog/blog_sidebar_base.html" %}
+
+
+
+{% block  SeriesTitle %}
+    {% if  blog.series_keyword == 'Alfred' %}
+        <h3 class="text-center">玩转 Mac Alfred</h3>
+    {% endif %}
+{% endblock %}
+
+{% block SeriesCatalog %}
+    {% if blog.series_keyword == 'Alfred' %}
+        <li class="active">
+            <a href="#">Alfred概述</a>
+        </li>
+        <li class="active">
+            <a href="#">文件搜索</a>
+        </li>
+        <li class="active">
+            <a href="#">网络搜索</a>
+        </li>
+        <li class="active">
+            <a href="#">网页书签、计算器和字典</a>
+        </li>
+        <li class="active">
+            <a href="#">剪切板历史记录</a>
+        </li>
+        <li class="active">
+            <a href="#">Snippets文字扩展</a>
+        </li>
+        <li class="active">
+            <a href="#">iTunes Mini Player</a>
+        </li>
+        <li class="active">
+            <a href="#">系统命令和终端</a>
+        </li>
+        <li class="active">
+            <a href="#">Workflow</a>
+        </li>
+    {% endif %}
+{% endblock %}
+
+{% block SeriesContent%}
+{% comment %}
+
+    <div class="container">
+        <div class="row justify-content-md-center">
+            {# <div class="col-sm-9"> #}
+                <h1 class="display-5 text-center font-weight-bold">{{ blog.title }}</h1>
+                <p class="content-markdown">{{ blog.content }}</p>
+            {# </div> #}
+        </div>
+    </div>
+{% endcomment %}
+{% if user.is_superuser %}
+    <a href="{% url 'blog:blog_update' pk=blog.pk %}" class="btn btn-primary">Update</a>
+    <a href="{% url 'blog:blog_delete' pk=blog.pk %}" class="btn btn-danger">Delete</a>
+{% endif %}
+
+<h1 class="display-5 text-center font-weight-bold">{{ blog.title }}</h1>
+<p class="content-markdown">{{ blog.content }}</p>
+
+
+<div class="container text-center">
+    {% if already_like == True %}
+        <a href="{% url 'like:click_like_button' pk=blog.pk %}"><img src="../../../static/Blog/images/button/like_btn_2.png" alt="" width="8%"></a>
+    {% else %}
+        <a href="{% url 'like:click_like_button' pk=blog.pk %}"><img src="../../../static/Blog/images/button/like_btn.png" alt="" width="8%"></a>
+    {% endif %}
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="{% url 'like:click_like_button' pk=blog.pk %}"><img src="../../../static/Blog/images/button/pay_btn.png" alt="" width="8%"></a>
+</div>
+
+
+<div class="line"></div>
+
+
+<!-- 评论 -->
+{% load widget_tweaks %}
+<p>
+    {% if not user.is_authenticated %}
+        （<a href="{% url 'users:user_login' %}">登录</a>后可以评论）
+    {% else %}
+            {% if user.is_superuser %}
+                <img style="float:left" src="/media/Blog/portraits/2f0e139da1099b8d5febf607ce3c3fe61495072461_large_xtqxrbE.png" alt="" class="img-thumbnail" width="60px" height="60px"><a href=""><small>  {{user}}</small></a>
+            {% else %}
+            <img style="float:left" src="{{ user_info.portrait.url }}" alt="" class="img-thumbnail" width="60px"><a href=""><small>  {{user}}</small></a>
+            {% endif %}
+
+            <form method="post" action="{% url 'comment:create_comment' pk=blog.pk %}">
+                {% csrf_token %}
+                {% for field in form.visible_fields %}
+                    {% if field.name == 'content' %}
+                        <div class="form-group">
+                            {% render_field field class="form-control" style="height:100px" %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                {% if  user.is_authenticated %}
+                <input type="submit" value="提交" class="btn btn-primary">
+                {% endif %}
+            </form>
+    {% endif %}
+</p>
+
+
+<br><br>
+
+
+<!-- 评论区 -->
+<p class="lead">评论区</p>
+    {% if comments.count == 0 %}
+<p>No Comments</p>
+{% else %}
+<div class="comment_area">
+    {% load mptt_tags %}
+    {% recursetree comments %}
+    <br>
+            <div id="comment_card">
+
+
+                <img style="float:left" src="{{ node.get_user_info.first.portrait.url }}" alt="" class="img-thumbnail" width="60px" height="60px">
+
+                <div class="card" style="">
+                    <div class="card-header">
+                        {{ node.get_user_info.first.user }} - <small>{{ node.create_date|timesince }} ago |<a class="comment-reply-btn" href="#"> Reply</a></small>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">{{ node.content }}</p>
+                    </div>
+                </div>
+
+                <div class="comment-reply" style="display:none">
+                    <br>
+                    <form method="post" action="{% url 'comment:create_comment' pk=blog.pk %}">
+                        {% csrf_token %}
+                        {% for field in comment_form.visible_fields %}
+                            {% if field.name == 'content' %}
+                                <div class="form-group">
+                                    {% render_field field class="form-control" style="height:100px" %}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                        <input type="hidden" name="parent_id" value="{{ node.id }}">
+                        <input type="submit" value="提交" class="btn btn-primary">
+                    </form>
+                </div>
+            </div>
+
+        {% if not node.is_leaf_node %}
+
+         <div class="offset-md-1">
+            {{ children }}
+         </div>
+
+        {% endif %}
+    {% endrecursetree %}
+</div>
+{% endif %}
+{% endblock %}

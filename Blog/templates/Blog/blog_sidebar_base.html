@@ -1,0 +1,350 @@
+{% extends "Blog/base.html" %}
+
+{% block head_style_css %}
+{% load static %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>LifePro</title>
+
+    <!-- Bootstrap core CSS -->
+    {# <link href="{% static 'Blog/css/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet"> #}
+
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" href="{% static 'Blog/css/blog_sidebar_style.css' %}">
+    <link rel="stylesheet" href="{% static 'Blog/css/blog_page_style.css' %}">
+    {# <link rel="stylesheet" href="{% static 'Blog/css/login_custom.css' %}"> #}
+
+{% endblock %}
+
+{% block content %}
+<div id="wrapper">
+    <!-- Sidebar -->
+    <div id="sidebar-wrapper">
+        <ul class="sidebar-nav list-unstyled">
+            <br><br><br>
+            <a href="#menu-toggle1" class="float-right mr-2 hvr-grow-shadow " id="menu-toggle1" ><img src="{% static 'Blog/images/button/close_category_arrow.png'%}" width="20px"></a>
+            <li class="sidebar-brand">
+                <div class="font-weight-bold">
+                    {{ category_name }}
+                </div>
+            </li>
+
+            {% for title, pk in category_blog_title_pk_list %}
+            <li>
+                <a href="{% url 'blog:blog_detail' pk=pk %}">{{ title }}</a>
+                {% if title == blog.title %}
+                        <small class="text-muted">
+                        {{ toc|safe }}
+
+                        </small>
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <br><br><br>
+    <!-- Page Content -->
+        <div id="page-content-wrapper">
+        <div class="container-fluid col-sm-9">
+
+            {% if user.is_superuser %}
+                <a href="{% url 'blog:blog_update' pk=blog.pk %}" class="btn btn-primary">Update</a>
+                <a href="{% url 'blog:blog_delete' pk=blog.pk %}" class="btn btn-danger">Delete</a>
+            {% endif %}
+
+            {% if is_series == True %}
+                <a href="#menu-toggle" class="btn btn-primary float-left mr-2 hvr-grow-shadow" id="menu-toggle">目录</a>
+            {% endif %}
+
+            <!-- Blog正文内容 -->
+            <div class="container">
+                <div class="justify-content-md-center img-fluid">
+                    <br>
+                    <h1 class="display-5 text-center font-weight-bold">{{ blog.title }}</h1>
+                    <br>
+                    <p class="">{{ blog_content|safe }}</p>
+                </div>
+            </div>
+
+            <br>
+            {% if is_series == True %}
+                {% if previous_pk != None %}
+                    <div class="float-left">
+                        <img src="{% static 'Blog/images/arrow_left.png' %}" width="60px">
+                        <a href="{% url 'blog:blog_detail' pk=previous_pk %}">{{ previous_title }}</a>
+                    </div>
+                {% endif %}
+
+                {% if next_pk != None %}
+                    <div class="float-right">
+                        <a href="{% url 'blog:blog_detail' pk=next_pk %}">{{ next_title }}</a>
+                        <img src="{% static 'Blog/images/arrow_right.png' %}" width="60px">
+                    </div>
+                {% endif %}
+            {% endif %}
+
+            <br><br>
+            <div class="container text-center">
+                {% if user.is_authenticated == False %}
+                    <a href="#" data-toggle="modal" data-target="#LoginModal" ><img src="../../../static/Blog/images/button/like_btn.png" alt="" width="8%" class="hvr-pulse-grow"></a>
+                {% else %}
+                    {% if already_like == True %}
+                        <a href="{% url 'like:click_like_button' pk=blog.pk %}"><img src="../../../static/Blog/images/button/like_btn_2.png" alt="" width="8%"></a>
+                    {% else %}
+                        <a href="{% url 'like:click_like_button' pk=blog.pk %}"><img src="../../../static/Blog/images/button/like_btn.png" alt="" width="8%" class="hvr-pulse-grow"></a>
+                    {% endif %}
+                {% endif %}
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                {# <a href="{% url 'like:click_like_button' pk=blog.pk %}"><img src="../../../static/Blog/images/button/pay_btn.png" alt="" width="8%"></a> #}
+
+                <a  data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    <img src="../../../static/Blog/images/button/pay_btn.png" alt="" width="8%">
+                </a>
+                <div class="collapse" id="collapseExample">
+                    <div class="card card-body">
+                        <img src="{% static 'Blog/images/pay_weixin.JPG' %}" alt="" width="150px">
+
+                    </div>
+                </div>
+            </div>
+
+            <br><br>
+            <hr style="border-top: dashed 1px;">
+            <br>
+
+            <!-- 评论 -->
+            {% load widget_tweaks %}
+            <p>
+                {% if not user.is_authenticated %}
+                    {# （<a href="{% url 'users:user_login' %}">登录</a>后可以评论） #}
+                    （<a href="#" data-toggle="modal" data-target="#LoginModal">登录</a>后可以评论）
+                {% else %}
+                    {% if user.is_superuser %}
+                        <img style="float:left" src="/media/Blog/portraits/2f0e139da1099b8d5febf607ce3c3fe61495072461_large_xtqxrbE.png" alt="" class="img-thumbnail" width="60px" height="60px"><a href=""><small>  {{user}}</small></a>
+                        {% else %}
+                        <img style="float:left" src="{{ user_info.portrait.url }}" alt="" class="img-thumbnail" width="60px"><a href="{% url 'users:user_profile' pk=user.userinfo.id %}"><small>  {{user}}</small></a>
+                    {% endif %}
+
+                    <form method="post" action="{% url 'comment:create_comment' pk=blog.pk %}">
+                        {% csrf_token %}
+                        {% for field in form.visible_fields %}
+                            {% if field.name == 'content' %}
+                                <div class="form-group">
+                                    {% render_field field class="form-control" style="height:100px" %}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                        {% if  user.is_authenticated %}
+                            <input type="submit" value="提交" class="btn btn-primary">
+                        {% endif %}
+                    </form>
+                    {# <input type="submit" value="提交" class="btn btn-primary" data-toggle="modal" data-target="#overlay"> #}
+
+                {% endif %}
+            </p>
+
+            <div id="LoginModal" class="modal fade text-center">
+                <div class="modal-dialog">
+                    <div class="col-lg-8 col-sm-8 col-12 main-section">
+                        <div class="modal-content">
+                            <div class="col-lg-12 col-sm-12 col-12 user-img">
+                                <img src="{% static 'Blog/images/logo/man.png' %}">
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-12 user-name">
+                                <h1>User Login</h1>
+                                <button type="button" class="close" data-dismiss="modal">×</button>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-12 form-input">
+                                <form action="{% url 'users:user_login' %}" method="post">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <input class="form-control" placeholder="Username" name="username">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" class="form-control" placeholder="Password" name="password">
+                                    </div>
+                                    <button type="submit" class="btn btn-success">Login</button>
+                                </form>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-12 link-part">
+                                <a href="http://www.nicesnippets.com" target="_blank">Forgot Password?</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <br><br>
+
+
+
+            <!-- 评论区 -->
+            <p class="lead">评论区</p>
+                {% if comments.count == 0 %}
+            <p>No Comments</p>
+            {% else %}
+            <div class="comment_area">
+                {% load mptt_tags %}
+                {% recursetree comments %}
+                <br>
+                    <div id="comment_card">
+                        <img style="float:left" src="{{ node.get_user_info.first.portrait.url }}" alt="" class="img-thumbnail" width="60px" height="60px">
+
+                        <div class="card">
+                            <div class="card-header">
+                                {% if node.parent != None %}
+                                    {% if node.user.is_superuser %}
+                                        <span class="font-weight-bold">{{ node.get_user_info.first.user }}</span><span style="color:red">（博主）</span>
+                                    {% else %}
+                                        <span class="font-weight-bold">{{ node.get_user_info.first.user }}</span>
+                                    {% endif %}
+                                    <img src="{% static "Blog/images/button/reply_icon.png" %}" alt="" width="30px">
+                                    {% if node.parent.user.is_superuser %}
+                                        <span class="font-weight-bold">{{ node.parent.get_user_info.first.user }}</span><span style="color:red">（博主）</span>
+                                    {% else %}
+                                        <span class="font-weight-bold">{{ node.parent.get_user_info.first.user }}</span>
+                                    {% endif %}
+                                     - <small>{{ node.create_date|timesince }} ago |<a class="comment-reply-btn" href="#"> Reply</a></small>
+                                {% else %}
+                                    {% if node.user.is_superuser %}
+                                        <span class="font-weight-bold">{{ node.get_user_info.first.user }}</span><span style="color:red">（博主）</span>
+                                    {% else %}
+                                        <span class="font-weight-bold">{{ node.get_user_info.first.user }}</span>
+                                    {% endif %}
+                                     - <small>{{ node.create_date|timesince }} ago |<a class="comment-reply-btn" href="#"> Reply</a></small>
+                                {% endif %}
+
+                                {% if user.is_superuser %}
+                                <a href="{% url 'comment:delete_comment' node.pk %}" class="btn btn-danger btn-sm">Delete</a>
+
+                                {% endif %}
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">{{ node.content }}</p>
+                            </div>
+                        </div>
+
+                        <div class="comment-reply" style="display:none">
+                            <br>
+                            <form method="post" action="{% url 'comment:create_comment' pk=blog.pk %}">
+                                {% csrf_token %}
+                                {% for field in comment_form.visible_fields %}
+                                    {% if field.name == 'content' %}
+                                        <div class="form-group">
+                                            {% render_field field class="form-control" style="height:100px" %}
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                                <input type="hidden" name="parent_id" value="{{ node.id }}">
+                                <input type="submit" value="提交" class="btn btn-primary">
+                            </form>
+                        </div>
+                    </div>
+
+                    {% if not node.is_leaf_node %}
+                         <div class="offset-md-1">
+                            {{ children }}
+                         </div>
+                    {% endif %}
+                {% endrecursetree %}
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+
+    <br><br><br><br><br>
+    <!-- /#page-content-wrapper -->
+</div>
+<!-- /#wrapper -->
+
+
+<div id="MessageModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="false">
+  <div class="modal-dialog modal-sm modal-dialog-centered">
+    <div class="modal-content text-center text-white" style="background-color:#4286f4">
+        {% for message in messages %}
+        <br>
+        {{ message|safe }}
+        <br>
+        <br>
+        {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% if messages %}
+    {% for message in messages  %}
+        <input type="hidden" id="message" value="{{ message }}">
+    {% endfor %}
+{% endif %}
+
+{% endblock %}
+
+
+
+
+{% block script_block %}
+<!-- Marked CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.17/marked.js"></script>
+
+<!-- 让Blog的文本变为Markdown -->
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(".content-markdown").each(function(){
+            var content = $(this).text()
+            var contentMarkdown = marked(content)
+            $(this).html(contentMarkdown)
+        })
+        $(".content-markdown img").each(function(){
+            $(this).addClass("img-fluid")
+        })
+    })
+
+    $(document).ready(function(){
+        $("img").each(function(){
+            $(this).addClass("img-fluid")
+        })
+    })
+
+
+    $(".comment-reply-btn").click(function(event){
+        event.preventDefault();
+        $(this).parent().parent().parent().next(".comment-reply").fadeToggle();
+    })
+
+    $(".comment-reply-btn-inside").click(function(event){
+        event.preventDefault();
+        // $(this).parent().parent.next(".comment-reply").fadeToggle();
+        $(this).parent().fadeToggle();
+    })
+</script>
+
+<script>
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+
+    $("#menu-toggle1").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+</script>
+
+{# 显示评论成功、点赞成功等相关信息 #}
+<script type="text/javascript">
+    $(window).on('load',function(){
+        var message = document.getElementById("message");
+        if (message != null)
+        {
+            $('#MessageModal').modal('show');
+        }
+    });
+</script>
+
+{% endblock %}

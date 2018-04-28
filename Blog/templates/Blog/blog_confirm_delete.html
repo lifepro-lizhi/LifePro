@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+        <form method="post">
+            {% csrf_token %}
+            <p>Confirm Delete? {{ blog }}</p>
+            <input type="submit" name="" value="Yes">
+            <a href="{% url 'blog:blog_list' %}"><input type="button" name="" value="No"></a>
+        </form>
+    </body>
+</html>
