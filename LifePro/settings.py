@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'Comment',
     'Like',
     'ReadingInfo',
-    'pagedown',
+    # 'pagedown',
     'bootstrap4',
     'widget_tweaks',
     'mptt',
