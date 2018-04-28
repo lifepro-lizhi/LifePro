@@ -1,6 +1,6 @@
 from django import forms
 from .models import Blog, Comment
-from pagedown.widgets import PagedownWidget
+# from pagedown.widgets import PagedownWidget
 
 
 class BlogCreateForm(forms.ModelForm):
