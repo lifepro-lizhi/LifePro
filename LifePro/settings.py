@@ -24,7 +24,7 @@ SECRET_KEY = '!jwqqi+n&b^9df$cpv&&)j^3%rd6)23qzonc+^)o=arf4tsh%f'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['www.lifepro.site', '47.98.251.240', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -133,9 +133,18 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'Blog/static')
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'Blog/media')
+# development
+# STATIC_ROOT = os.path.join(BASE_DIR, 'Blog/static')
+
+# deployment
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+
+# development
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'Blog/media')
+
+# deployment
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 MEDIA_URL = '/media/'
 
 LOGOUT_REDIRECT_URL = 'blog:blog_list'
