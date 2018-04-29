@@ -17,5 +17,8 @@ class UserInfo(models.Model):
     portrait = models.ImageField(upload_to=upload_file_name, blank=True)
     last_comment_datetime = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        db_table = 'UserInfo'
+
     def __str__(self):
         return self.user.username

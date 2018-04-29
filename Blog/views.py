@@ -37,6 +37,7 @@ class BlogListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        no_blog = False
         # START 分页器
         paginator = Paginator(self.get_queryset().order_by('-publish_date'), 5)
 
@@ -49,60 +50,67 @@ class BlogListView(ListView):
         except EmptyPage:
             # If page is out of range (e.g. 9999),deliver last page of results.
             blogs_page = paginator.page(paginator.num_pages)
-        # END 分页器
-
-        # START 侧边栏Read Top 10
-        top_reading_list = []
-        top_reading_queryset = ReadingInfo.objects.values('object_id').\
-                                       annotate(count=Count('object_id')).\
-                                       order_by('-count')[0:11]
-        for each in top_reading_queryset:
-            blog_info = {}
-            blog_info['id'] = each['object_id']
-            blog_info['count'] = each['count']
-            blog_info['title'] = Blog.objects.get(id=each['object_id']).title
-            top_reading_list.append(blog_info)
-        # END 侧边栏Read Top 10
-
-        # START 侧边栏Comment Top 10
-        top_comment_list = []
-        top_comment_queryset = Comment.objects.values('object_id').\
-                                       annotate(count=Count('object_id')).\
-                                       order_by('-count')[0:11]
-        for each in top_comment_queryset:
-            blog_info = {}
-            blog_info['id'] = each['object_id']
-            blog_info['count'] = each['count']
-            blog_info['title'] = Blog.objects.get(id=each['object_id']).title
-            top_comment_list.append(blog_info)
-        # END 侧边栏Read Top 10
-
-        # START 侧边栏Like Top 10
-        top_like_list = []
-        top_like_queryset = Like.objects.values('object_id').\
-                                       annotate(count=Count('object_id')).\
-                                       order_by('-count')[0:11]
-        for each in top_like_queryset:
-            blog_info = {}
-            blog_info['id'] = each['object_id']
-            blog_info['count'] = each['count']
-            blog_info['title'] = Blog.objects.get(id=each['object_id']).title
-            top_like_list.append(blog_info)
-        # END 侧边栏Like Top 10
-
-        # START 侧边栏Recent Post
-        recent_post_list = []
-        recent_post_queryset = Blog.objects.all().order_by('-publish_date')[0:5]
-        for each in recent_post_queryset:
-            recent_post_list.append(each)
-        # END 侧边栏Recent Post
+            no_blog = True
 
         context['blogs_page'] = blogs_page
+        # END 分页器
+
+        if no_blog:
+            # START 侧边栏Read Top 10
+            top_reading_list = []
+            top_reading_queryset = ReadingInfo.objects.values('object_id').\
+                                           annotate(count=Count('object_id')).\
+                                           order_by('-count')[0:11]
+            for each in top_reading_queryset:
+                blog_info = {}
+                blog_info['id'] = each['object_id']
+                blog_info['count'] = each['count']
+                blog_info['title'] = Blog.objects.get(id=each['object_id']).title
+                top_reading_list.append(blog_info)
+
+            context['top_reading_list'] = top_reading_list
+            # END 侧边栏Read Top 10
+
+            # START 侧边栏Comment Top 10
+            top_comment_list = []
+            top_comment_queryset = Comment.objects.values('object_id').\
+                                           annotate(count=Count('object_id')).\
+                                           order_by('-count')[0:11]
+            for each in top_comment_queryset:
+                blog_info = {}
+                blog_info['id'] = each['object_id']
+                blog_info['count'] = each['count']
+                blog_info['title'] = Blog.objects.get(id=each['object_id']).title
+                top_comment_list.append(blog_info)
+
+            context['top_comment_list'] = top_comment_list
+            # END 侧边栏Read Top 10
+
+            # START 侧边栏Like Top 10
+            top_like_list = []
+            top_like_queryset = Like.objects.values('object_id').\
+                                           annotate(count=Count('object_id')).\
+                                           order_by('-count')[0:11]
+            for each in top_like_queryset:
+                blog_info = {}
+                blog_info['id'] = each['object_id']
+                blog_info['count'] = each['count']
+                blog_info['title'] = Blog.objects.get(id=each['object_id']).title
+                top_like_list.append(blog_info)
+
+            context['top_like_list'] = top_like_list
+            # END 侧边栏Like Top 10
+
+            # START 侧边栏Recent Post
+            recent_post_list = []
+            recent_post_queryset = Blog.objects.all().order_by('-publish_date')[0:5]
+            for each in recent_post_queryset:
+                recent_post_list.append(each)
+
+            context['recent_post_list'] = recent_post_list
+            # END 侧边栏Recent Post
+
         context['up_to_current_page_list'] = blogs_page.paginator.page_range[0:(blogs_page.number + 1)]
-        context['top_reading_list'] = top_reading_list
-        context['top_comment_list'] = top_comment_list
-        context['top_like_list'] = top_like_list
-        context['recent_post_list'] = recent_post_list
 
         return context
 
@@ -228,10 +236,10 @@ def publish(request, pk):
     blog = get_object_or_404(Blog, pk=pk)
     print(request.method)
     if request.method == "POST":
-        form = BlogPublishForm(request.POST, request.FILES)
+        form = BlogPublishForm(request.POST)
         if form.is_valid():
             blog.category = form.cleaned_data["category"]
-            blog.cover_image = form.cleaned_data["cover_image"]
+            blog.cover_image_url = form.cleaned_data["cover_image_url"]
             blog.cover_breif = form.cleaned_data["cover_breif"]
             blog.publish_date = timezone.now()
             blog.is_series = form.cleaned_data['is_series']

@@ -36,6 +36,9 @@ class Comment(MPTTModel):
 
     # objects = CommentManager()
 
+    class Meta:
+        db_table = 'Comment'
+
     def __str__(self):
         return self.content
 

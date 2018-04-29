@@ -30,6 +30,9 @@ class Like(models.Model):
 
     # objects = CommentManager()
 
+    class Meta:
+        db_table = 'Like'
+
     def __str__(self):
         return self.content
 

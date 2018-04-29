@@ -15,5 +15,5 @@ class BlogCreateForm(forms.ModelForm):
 class BlogPublishForm(forms.ModelForm):
     class Meta:
         model = Blog
-        fields = ('category', 'cover_image', 'cover_breif', 'is_series',
+        fields = ('category', 'cover_image_url', 'cover_breif', 'is_series',
                   'series_keyword', 'series_index')

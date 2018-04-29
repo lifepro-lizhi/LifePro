@@ -32,24 +32,24 @@
     <h2>No Blog has been created! <a href="{% url 'blog:blog_create' %}">New</a></h2>
 {% else %}
     <div class="row justify-content-md-center">
-        <div class="col-sm-7 ml-auto">
+        <div class="col-md-7 ml-auto">
         {% for blog in  blogs_page %}
             <div class="card">
                 <div class="card-header text-muted d-inline">
                     {% if blog.category == 'Python' %}
-                        <img src="{% static 'Blog/images/logo/python.png' %}" class="float-left rounded" height="4%" width="4%" alt="">
+                        <img src="{% static 'Blog/images/logo/python.png' %}" class="img-fluid float-left rounded" height="4%" width="4%" alt="">
                         {% elif blog.category == 'Django' %}
-                        <img src="{% static 'Blog/images/logo/django.png' %}" class="float-left rounded"  width="4%" alt="">
+                        <img src="{% static 'Blog/images/logo/django.png' %}" class="img-fluid float-left rounded"  width="4%" alt="">
                         {% elif blog.category == 'MachineLearning' %}
-                        <img src="{% static 'Blog/images/logo/machine learning.png' %}" class="float-left rounded" height="4%" width="4%" alt="">
+                        <img src="{% static 'Blog/images/logo/machine learning.png' %}" class="img-fluid float-left rounded" height="4%" width="4%" alt="">
                         {% elif blog.category == 'PostgreSQL' %}
-                        <img src="{% static 'Blog/images/logo/postgresql.png' %}" class="float-left rounded" height="4%" width="4%" alt="">
+                        <img src="{% static 'Blog/images/logo/postgresql.png' %}" class="img-fluid float-left rounded" height="4%" width="4%" alt="">
                         {% elif blog.category == 'Unity' %}
-                        <img src="{% static 'Blog/images/logo/unity.png' %}" class="float-left rounded" height="4%" width="4%" alt="">
+                        <img src="{% static 'Blog/images/logo/unity.png' %}" class="img-fluid float-left rounded" height="4%" width="4%" alt="">
                         {% elif blog.category == 'Mac' %}
-                        <img src="{% static 'Blog/images/logo/mac.png' %}" class="float-left rounded" height="4%" width="4%" alt="">
+                        <img src="{% static 'Blog/images/logo/mac.png' %}" class="img-fluid float-left rounded" height="4%" width="4%" alt="">
                         {% elif blog.category == 'Japanese' %}
-                        <img src="{% static 'Blog/images/logo/japanese.png' %}" class="float-left rounded" height="4%" width="4%" alt="">
+                        <img src="{% static 'Blog/images/logo/japanese.png' %}" class="img-fluid float-left rounded" height="4%" width="4%" alt="">
                     {% endif %}
 
                     <h5 class="text-center mr-4">
@@ -81,7 +81,7 @@
                         </div>
                     </h6>
                     <br>
-                    <img src="{{ blog.cover_image.url }}" class="img-fluid card-img-top" alt=""><br><br>
+                    <img src="{{ blog.cover_image_url }}" class="img-fluid card-img-top" alt=""><br><br>
                     <p class="card-text text-left">{{ blog.cover_breif }}</p>
                     <a href="{% url 'blog:blog_detail' pk=blog.pk %}" class="card-link "><p class="text-center font-weight-bold hvr-underline-from-center">Read More</p></a>
                 </div>
@@ -234,7 +234,7 @@
         </nav>
     </div>
 
-        <div class="col-sm-3 mr-auto">
+        <div class="col-md-3 mr-auto">
             <div class="card ml-auto text-center" style="max-width: 25rem;">
                 <!-- <h3 class="card-header">
                     Cold Feet?

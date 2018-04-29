@@ -47,7 +47,8 @@ class Blog(models.Model):
 
     category = models.CharField(choices=CATEGORY_CHOICES, max_length=255,
                                 default='Python')
-    cover_image = models.ImageField(upload_to=upload_file_name, blank=True)
+    # cover_image = models.ImageField(upload_to=upload_file_name, blank=True)
+    cover_image_url = models.URLField(null=True)
     cover_breif = models.TextField(max_length=1500, blank=True)
 
     draft = models.BooleanField(default=True)
@@ -59,6 +60,9 @@ class Blog(models.Model):
     comments = GenericRelation(Comment,  related_query_name='blog')
     likes = GenericRelation(Like, related_query_name='blog')
     reading_info = GenericRelation(ReadingInfo, related_query_name='blog')
+
+    class Meta:
+        db_table = 'Blog'
 
     def __str__(self):
         return self.title
