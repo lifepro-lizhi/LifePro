@@ -138,13 +138,13 @@ STATIC_URL = '/static/'
 # STATIC_ROOT = os.path.join(BASE_DIR, 'Blog/static')
 
 # deployment
-STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+STATIC_ROOT = os.path.normpath(os.path.join(BASE_DIR, '../static/'))
 
 # development
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'Blog/media')
 
 # deployment
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+MEDIA_ROOT = os.path.normpath(os.path.join(BASE_DIR, '../media/'))
 MEDIA_URL = '/media/'
 
 LOGOUT_REDIRECT_URL = 'blog:blog_list'
