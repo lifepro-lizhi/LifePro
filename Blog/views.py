@@ -496,7 +496,7 @@ class DraftListView(ListView):
 class DraftDetailView(DetailView):
     model = Blog
     context_object_name = 'draft'
-    template_name = 'blog/draft_detail.html'
+    template_name = 'Blog/draft_detail.html'
 
 
 class DraftUpdateView(UserPassesTestMixin, UpdateView):
