@@ -32,7 +32,7 @@
     <h2>No Blog has been created! <a href="{% url 'blog:blog_create' %}">New</a></h2>
 {% else %}
     <div class="row justify-content-md-center">
-        <div class="col-md-7 ml-auto">
+        <div class="col-lg-7 col-md-7 col-sm-7 ml-auto">
         {% for blog in  blogs_page %}
             <div class="card">
                 <div class="card-header text-muted d-inline">
