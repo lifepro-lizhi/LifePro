@@ -412,11 +412,12 @@ class BlogDetailView(FormMixin, DetailView):
                 context['category_name'] = "深入浅出PostgreSQL数据库"
 
             # 目录中的blog名称列表
-            category_blog_title_list = category_dict.values()
+            # category_blog_title_list = category_dict.values()
+            category_blog_title_list = sorted(category_dict.iteritems())
 
             # 目录中的blog pk列表
             category_blog_pk_list = []
-            for title in category_blog_title_list:
+            for num, title in category_blog_title_list:
                 try:
                     pk = Blog.objects.get(title=title).pk
                 except ObjectDoesNotExist:
