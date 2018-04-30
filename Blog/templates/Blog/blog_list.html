@@ -24,6 +24,8 @@
 {% endblock %}
 
 
+{% comment %}
+
 {% block content %}
 {% if not blogs_page %}
     {% if request.method == 'GET' %}
@@ -90,28 +92,6 @@
             <br>
             <br>
         {% endfor %}
-
-
-        {% comment %}
-
-        <div class="pagination justify-content-md-center">
-            <span class="step-links">
-            {% if blogs_page.has_previous %}
-                {# <a href="?page=1">1</a> #}
-                <a href="?page={{ blogs_page.previous_page_number }}" class="btn btn-primary float-left">&laquo; </a>
-            {% endif %}
-
-            <span class="current">
-                page {{ blogs_page.number }} of {{ blogs_page.paginator.num_pages }}
-            </span>
-
-            {% if blogs_page.has_next %}
-                <a href="?page={{ blogs_page.next_page_number }}" class="btn btn-primary mr-0">&raquo;</a>
-                {# <a href="?page={{ blogs_page.paginator.num_pages }}">last</a> #}
-            {% endif %}
-            </span>
-        </div>
-        {% endcomment %}
 
 
         {# 分页器 #}
@@ -325,3 +305,4 @@
 {% endif %}
 
 {% endblock %}
+{% endcomment %}
