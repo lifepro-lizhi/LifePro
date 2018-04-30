@@ -268,7 +268,6 @@ class BlogDetailView(FormMixin, DetailView):
         context = super().get_context_data(**kwargs)
 
         instance = Blog.objects.get(id=self.kwargs['pk'])
-        print("############## {}".format(instance.publish_date))
         # comments = Comment.objects.filter_by_instance(instance)
         comments = Comment.objects.filter(content_type=ContentType.objects.get_for_model(Blog),
                                           object_id=instance.id)
