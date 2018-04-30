@@ -41,7 +41,7 @@ mac_tips_category = {
     "8": "MAC实用技巧（八）",
     "9": "Automator能为你做什么",
     "10": "10个Automator的妙用",
-    "11": "利用Handoff在Mac和iPhone/iPad设备之间无缝切换",
+    "11": "Handoff",
     "12": "15个Safari实用技巧",
     "13": "Safari快捷键",
     "14": "如何使用Safari的Reading List功能",
