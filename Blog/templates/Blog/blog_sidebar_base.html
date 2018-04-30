@@ -25,24 +25,28 @@
     <div id="sidebar-wrapper">
         <ul class="sidebar-nav list-unstyled">
             <br><br><br>
-            <a href="#menu-toggle1" class="float-right mr-2 hvr-grow-shadow " id="menu-toggle1" ><img src="{% static 'Blog/images/button/close_category_arrow.png'%}" width="20px"></a>
-            <li class="sidebar-brand">
-                <div class="font-weight-bold">
-                    {{ category_name }}
-                </div>
-            </li>
+            <div class="text-white lead">
+                <a href="#menu-toggle1" class="float-right mr-2 hvr-grow-shadow " id="menu-toggle1" ><img src="{% static 'Blog/images/button/close_category_arrow.png'%}" width="20px"></a>
+                <li class="sidebar-brand">
+                    <div class="font-weight-bold text-center" >
+                        {{ category_name }}
+                    </div>
+                </li>
+            </div>
 
-            {% for title, pk in category_blog_title_pk_list %}
-            <li>
-                <a href="{% url 'blog:blog_detail' pk=pk %}">{{ title }}</a>
-                {% if title == blog.title %}
-                        <small class="text-muted">
-                        {{ toc|safe }}
+            <div class="text-white text-left pr-1 pl-1">
+                {% for title, pk in category_blog_title_pk_list %}
+                <li>
+                    <a href="{% url 'blog:blog_detail' pk=pk %}">{{ title }}</a>
+                    {% if title == blog.title %}
+                            <small class="text-muted">
+                            {{ toc|safe }}
 
-                        </small>
-                {% endif %}
-            </li>
-            {% endfor %}
+                            </small>
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </div>
         </ul>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -103,11 +107,19 @@
                 {# <a href="{% url 'like:click_like_button' pk=blog.pk %}"><img src="../../../static/Blog/images/button/pay_btn.png" alt="" width="8%"></a> #}
 
                 <a  data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                    <img src="../../../static/Blog/images/button/pay_btn.png" alt="" width="8%">
+                    <img src="{% static 'Blog/images/button/pay_btn.png' %}" alt="" width="8%">
                 </a>
                 <div class="collapse" id="collapseExample">
-                    <div class="card card-body">
-                        <img src="{% static 'Blog/images/pay_weixin.JPG' %}" alt="" width="150px">
+                    <div class="card card-body border-light">
+                        <div class="row">
+                        <div class="col">
+                            <img src="{% static 'Blog/images/pay_wx.jpg' %}" alt="" width="200px">
+                        </div>
+                        <div class="col">
+                            <img src="{% static 'Blog/images/pay_zfb.jpg' %}" alt="" width="200px">
+                        </div>
+
+                        </div>
 
                     </div>
                 </div>
@@ -125,9 +137,13 @@
                     （<a href="#" data-toggle="modal" data-target="#LoginModal">登录</a>后可以评论）
                 {% else %}
                     {% if user.is_superuser %}
-                        <img style="float:left" src="/media/Blog/portraits/2f0e139da1099b8d5febf607ce3c3fe61495072461_large_xtqxrbE.png" alt="" class="img-thumbnail" width="60px" height="60px"><a href=""><small>  {{user}}</small></a>
+                        <img style="float:left" src="{% static 'Blog/images/captain.png' %}" alt="" class="img-thumbnail" width="60px" height="60px"><a href=""><small>  {{user}}</small></a>
+                        {% else %}
+                        {% if user_info.portrait == None %}
+                        <img style="float:left" src="{% static 'Blog/images/logo/user_icon.png' %}" alt="" class="img-thumbnail" width="60px"><a href="{% url 'users:user_profile' pk=user.userinfo.id %}"><small>  {{user}}</small></a>
                         {% else %}
                         <img style="float:left" src="{{ user_info.portrait.url }}" alt="" class="img-thumbnail" width="60px"><a href="{% url 'users:user_profile' pk=user.userinfo.id %}"><small>  {{user}}</small></a>
+                        {% endif %}
                     {% endif %}
 
                     <form method="post" action="{% url 'comment:create_comment' pk=blog.pk %}">
@@ -209,14 +225,22 @@
                                     {% else %}
                                         <span class="font-weight-bold">{{ node.parent.get_user_info.first.user }}</span>
                                     {% endif %}
-                                     - <small>{{ node.create_date|timesince }} ago |<a class="comment-reply-btn" href="#"> Reply</a></small>
+                                    {% if not user.is_authenticated %}
+                                        - <small>{{ node.create_date|date:"SHORT_DATE_FORMAT" }} |<a href="#" data-toggle="modal" data-target="#LoginModal"> Reply</a></small>
+                                    {% else %}
+                                         - <small>{{ node.create_date|date:"SHORT_DATE_FORMAT" }} |<a class="comment-reply-btn" href="#"> Reply</a></small>
+                                    {% endif %}
                                 {% else %}
                                     {% if node.user.is_superuser %}
                                         <span class="font-weight-bold">{{ node.get_user_info.first.user }}</span><span style="color:red">（博主）</span>
                                     {% else %}
                                         <span class="font-weight-bold">{{ node.get_user_info.first.user }}</span>
                                     {% endif %}
-                                     - <small>{{ node.create_date|timesince }} ago |<a class="comment-reply-btn" href="#"> Reply</a></small>
+                                    {% if not user.is_authenticated %}
+                                        - <small>{{ node.create_date|date:"SHORT_DATE_FORMAT" }} |<a href="#" data-toggle="modal" data-target="#LoginModal"> Reply</a></small>
+                                    {% else %}
+                                         - <small>{{ node.create_date|date:"SHORT_DATE_FORMAT" }} |<a class="comment-reply-btn" href="#"> Reply</a></small>
+                                    {% endif %}
                                 {% endif %}
 
                                 {% if user.is_superuser %}

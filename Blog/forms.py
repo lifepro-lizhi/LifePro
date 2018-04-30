@@ -13,7 +13,8 @@ class BlogCreateForm(forms.ModelForm):
 
 
 class BlogPublishForm(forms.ModelForm):
+    publish_date = forms.DateField(widget=forms.DateInput(attrs={'class':'timepicker'}))
     class Meta:
         model = Blog
-        fields = ('category', 'cover_image_url', 'cover_breif', 'is_series',
+        fields = ('publish_date', 'category', 'cover_image_url', 'cover_breif', 'is_series',
                   'series_keyword', 'series_index')

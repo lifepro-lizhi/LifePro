@@ -30,6 +30,7 @@ CATEGORY_CHOICES = (
     ('English', 'English'),
     ('Japanese', 'Japanese'),
     ('French', 'French'),
+    ('Writing', 'Writing'),
 )
 
 
@@ -43,7 +44,7 @@ class Blog(models.Model):
     content = models.TextField()
 
     created_date = models.DateField(auto_now=True)
-    publish_date = models.DateField(auto_now=True)
+    publish_date = models.DateField(null=True)
 
     category = models.CharField(choices=CATEGORY_CHOICES, max_length=255,
                                 default='Python')
@@ -68,7 +69,8 @@ class Blog(models.Model):
         return self.title
 
     def publish(self):
-        self.publish_time = timezone.now()
+        # self.publish_time = timezone.now()
+        self.publish_time = timezone.localtime(timezone.now())
         self.save()
 
     def get_absolute_url(self):

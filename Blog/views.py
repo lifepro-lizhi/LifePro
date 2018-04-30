@@ -37,7 +37,6 @@ class BlogListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        no_blog = False
         # START 分页器
         paginator = Paginator(self.get_queryset().order_by('-publish_date'), 5)
 
@@ -50,65 +49,63 @@ class BlogListView(ListView):
         except EmptyPage:
             # If page is out of range (e.g. 9999),deliver last page of results.
             blogs_page = paginator.page(paginator.num_pages)
-            no_blog = True
 
         context['blogs_page'] = blogs_page
         # END 分页器
 
-        if no_blog:
-            # START 侧边栏Read Top 10
-            top_reading_list = []
-            top_reading_queryset = ReadingInfo.objects.values('object_id').\
-                                           annotate(count=Count('object_id')).\
-                                           order_by('-count')[0:11]
-            for each in top_reading_queryset:
-                blog_info = {}
-                blog_info['id'] = each['object_id']
-                blog_info['count'] = each['count']
-                blog_info['title'] = Blog.objects.get(id=each['object_id']).title
-                top_reading_list.append(blog_info)
+        # START 侧边栏Read Top 10
+        top_reading_list = []
+        top_reading_queryset = ReadingInfo.objects.values('object_id').\
+                                       annotate(count=Count('object_id')).\
+                                       order_by('-count')[0:11]
+        for each in top_reading_queryset:
+            blog_info = {}
+            blog_info['id'] = each['object_id']
+            blog_info['count'] = each['count']
+            blog_info['title'] = Blog.objects.get(id=each['object_id']).title
+            top_reading_list.append(blog_info)
 
-            context['top_reading_list'] = top_reading_list
-            # END 侧边栏Read Top 10
+        context['top_reading_list'] = top_reading_list
+        # END 侧边栏Read Top 10
 
-            # START 侧边栏Comment Top 10
-            top_comment_list = []
-            top_comment_queryset = Comment.objects.values('object_id').\
-                                           annotate(count=Count('object_id')).\
-                                           order_by('-count')[0:11]
-            for each in top_comment_queryset:
-                blog_info = {}
-                blog_info['id'] = each['object_id']
-                blog_info['count'] = each['count']
-                blog_info['title'] = Blog.objects.get(id=each['object_id']).title
-                top_comment_list.append(blog_info)
+        # START 侧边栏Comment Top 10
+        top_comment_list = []
+        top_comment_queryset = Comment.objects.values('object_id').\
+                                       annotate(count=Count('object_id')).\
+                                       order_by('-count')[0:11]
+        for each in top_comment_queryset:
+            blog_info = {}
+            blog_info['id'] = each['object_id']
+            blog_info['count'] = each['count']
+            blog_info['title'] = Blog.objects.get(id=each['object_id']).title
+            top_comment_list.append(blog_info)
 
-            context['top_comment_list'] = top_comment_list
-            # END 侧边栏Read Top 10
+        context['top_comment_list'] = top_comment_list
+        # END 侧边栏Read Top 10
 
-            # START 侧边栏Like Top 10
-            top_like_list = []
-            top_like_queryset = Like.objects.values('object_id').\
-                                           annotate(count=Count('object_id')).\
-                                           order_by('-count')[0:11]
-            for each in top_like_queryset:
-                blog_info = {}
-                blog_info['id'] = each['object_id']
-                blog_info['count'] = each['count']
-                blog_info['title'] = Blog.objects.get(id=each['object_id']).title
-                top_like_list.append(blog_info)
+        # START 侧边栏Like Top 10
+        top_like_list = []
+        top_like_queryset = Like.objects.values('object_id').\
+                                       annotate(count=Count('object_id')).\
+                                       order_by('-count')[0:11]
+        for each in top_like_queryset:
+            blog_info = {}
+            blog_info['id'] = each['object_id']
+            blog_info['count'] = each['count']
+            blog_info['title'] = Blog.objects.get(id=each['object_id']).title
+            top_like_list.append(blog_info)
 
-            context['top_like_list'] = top_like_list
-            # END 侧边栏Like Top 10
+        context['top_like_list'] = top_like_list
+        # END 侧边栏Like Top 10
 
-            # START 侧边栏Recent Post
-            recent_post_list = []
-            recent_post_queryset = Blog.objects.all().order_by('-publish_date')[0:5]
-            for each in recent_post_queryset:
-                recent_post_list.append(each)
+        # START 侧边栏Recent Post
+        recent_post_list = []
+        recent_post_queryset = Blog.objects.all().order_by('-publish_date')[0:5]
+        for each in recent_post_queryset:
+            recent_post_list.append(each)
 
-            context['recent_post_list'] = recent_post_list
-            # END 侧边栏Recent Post
+        context['recent_post_list'] = recent_post_list
+        # END 侧边栏Recent Post
 
         context['up_to_current_page_list'] = blogs_page.paginator.page_range[0:(blogs_page.number + 1)]
 
@@ -194,14 +191,12 @@ class SearchBlogListView(ListView):
 
     def get_queryset(self):
         search_content = self.request.GET.get('q')
-        print(search_content)
         return Blog.objects.filter(draft__exact=False).filter(Q(title__icontains=search_content) | Q(content__icontains=search_content)).order_by('publish_date')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
         search_content = self.request.GET.get('q')
-        print(search_content)
         blog_list = Blog.objects.filter(draft__exact=False).filter(Q(title__icontains=search_content) | Q(content__icontains=search_content)).order_by('publish_date')
 
         paginator = Paginator(blog_list, 5)
@@ -234,14 +229,13 @@ class BlogCreateView(UserPassesTestMixin, CreateView):
 
 def publish(request, pk):
     blog = get_object_or_404(Blog, pk=pk)
-    print(request.method)
     if request.method == "POST":
         form = BlogPublishForm(request.POST)
         if form.is_valid():
             blog.category = form.cleaned_data["category"]
             blog.cover_image_url = form.cleaned_data["cover_image_url"]
             blog.cover_breif = form.cleaned_data["cover_breif"]
-            blog.publish_date = timezone.now()
+            blog.publish_date = form.cleaned_data['publish_date']
             blog.is_series = form.cleaned_data['is_series']
             blog.series_keyword = form.cleaned_data['series_keyword']
             blog.series_index = form.cleaned_data['series_index']
@@ -251,7 +245,6 @@ def publish(request, pk):
             # return reverse_lazy("blog:blog_detail", kwargs={'pk': blog.pk})
             return redirect(reverse("blog:blog_detail", kwargs={'pk': pk}))
     else:
-        print("else")
         if blog.draft is True:
             publish_form = BlogPublishForm()
             context = {"publish_form": publish_form, }
@@ -275,6 +268,7 @@ class BlogDetailView(FormMixin, DetailView):
         context = super().get_context_data(**kwargs)
 
         instance = Blog.objects.get(id=self.kwargs['pk'])
+        print("############## {}".format(instance.publish_date))
         # comments = Comment.objects.filter_by_instance(instance)
         comments = Comment.objects.filter(content_type=ContentType.objects.get_for_model(Blog),
                                           object_id=instance.id)
@@ -360,22 +354,26 @@ class BlogDetailView(FormMixin, DetailView):
 
             if str(int(instance.series_index) - 1) in category_dict:
                 previous_title = category_dict[str(int(instance.series_index) - 1)]
-                print("previous: {}--{}".format(int(instance.series_index) - 1, previous_title))
+                print("previous: {}".format(previous_title))
                 try:
-                    previous_pk = Blog.objects.get(title=previous_title).pk
+                    previous_pk = Blog.objects.get(title__icontains=previous_title).pk
                     context['previous_title'] = previous_title
                     context['previous_pk'] = previous_pk
+                    print("previous find")
                 except ObjectDoesNotExist:
+                    print("previous ObjectDoesNotExist")
                     pass
 
             if str(int(instance.series_index) + 1) in category_dict:
                 next_title = category_dict[str(int(instance.series_index) + 1)]
-                print("next: {}--{}".format(int(instance.series_index) + 1, next_title))
+                print("next: {}".format(next_title))
                 try:
-                    next_pk = Blog.objects.get(title=next_title).pk
+                    next_pk = Blog.objects.get(title__icontains=next_title).pk
                     context['next_title'] = next_title
                     context['next_pk'] = next_pk
+                    print("find next")
                 except ObjectDoesNotExist:
+                    print("next ObjectDoesNotExist")
                     pass
         else:
             is_series = False
@@ -496,9 +494,10 @@ class DraftListView(ListView):
     context_object_name = 'drafts'
 
     def get_queryset(self):
-        return Blog.objects.filter(draft__exact=True).\
-                                   filter(publish_date__lte=timezone.now()).\
-                                   order_by('publish_date')
+        # return Blog.objects.filter(draft__exact=True).\
+        #                            filter(publish_date__lte=timezone.localtime(timezone.now())).\
+        #                            order_by('publish_date')
+        return Blog.objects.filter(draft__exact=True)
 
 
 class DraftDetailView(DetailView):

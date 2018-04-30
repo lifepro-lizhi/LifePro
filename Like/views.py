@@ -13,7 +13,6 @@ def ClickLikeButton(request, pk):
     blog = Blog.objects.get(id=pk)
 
     if not request.user.is_authenticated:
-        print("not login")
         messages.success(request, 'Your password was updated successfully!')
 
     else:

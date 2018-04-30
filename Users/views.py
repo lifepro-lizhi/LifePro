@@ -44,7 +44,6 @@ from django.db import IntegrityError
 #         return render(request, 'Users/register.html', context)
 
 def UserRegister(request):
-    print("enter UserRegister")
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -65,7 +64,7 @@ def UserRegister(request):
 
         # 检查用户是否上传头像，如果没有上传则将portrain置为None，以后用系统默认头像
         if not bool(request.FILES):
-            portrait = ""
+            portrait = "Blog/portraits/user_icon.png"
         else:
             portrait = request.FILES['portrait']
 
@@ -79,17 +78,12 @@ def UserRegister(request):
 
 
 def UserLogin(request):
-    print("enter UserLogin")
     if(request.method == 'POST'):
         username = request.POST['username']
         password = request.POST['password']
 
-        print("--------username: {}".format(username))
-        print("--------password: {}".format(password))
-
         user = authenticate(username=username, password=password)
         if user is not None:
-            print("-------user exists")
             login(request, user)
             # 登录之后返回上一次访问的网页
             last_page_url = request.META.get('HTTP_REFERER')

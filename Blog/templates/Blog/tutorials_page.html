@@ -7,11 +7,13 @@
 
 {% block content %}
 <br><br><br><br>
-<div class="container">
+{% comment %}
+
+<div class="container container-fluid">
     <div class="row justify-content-around">
 
-        <div class="col-sm-3 text-center">
-            <div class="card" style="width: 18rem;height:31rem;">
+        <div class="col-lg-3 col-md-3 col-sm-3 text-center">
+            <div class="card" style="height:31rem;">
                 <img class="card-img-top" src="{% static 'Blog/images/django.jpg' %}" alt="Card image cap">
                 <div class="card-body">
                     <p class="card-title lead">用Django打造自己的博客网站--基于Django 2.0和Python 3.6</p>
@@ -20,8 +22,8 @@
             </div>
         </div>
 
-        <div class="col-sm-3 text-center">
-            <div class="card" style="width: 18rem;height:31rem;">
+        <div class="col-lg-3 col-md-3 col-sm-3 text-center">
+            <div class="card style="height:31rem;"" >
                 <img class="card-img-top" src="{% static 'Blog/images/postgresql.png' %}" alt="Card image cap">
                 <div class="card-body">
                     <p class="card-title lead">深入浅出PostgreSQL数据库</p><br>
@@ -30,8 +32,8 @@
             </div>
         </div>
 
-        <div class="col-sm-3 text-center">
-            <div class="card" style="width: 18rem; height:31rem;">
+        <div class="col-lg-3 col-md-3 col-sm-3 text-center">
+            <div class="card style="height:31rem;"" >
                 <img class="card-img-top" src="{% static 'Blog/images/vuforia.jpg' %}" alt="Card image cap">
                 <div class="card-body">
                     <p class="card-title lead">Vuforia AR开发完全指南</p><br><br>
@@ -45,8 +47,8 @@
     <br><br>
 
     <div class="row justify-content-around">
-        <div class="col-sm-3 text-center">
-            <div class="card" style="width: 18rem; height:31rem;">
+        <div class="col-lg-3 col-md-3 col-sm-3 text-center">
+            <div class="card style="height:31rem;"" >
                 <img class="card-img-top" src="{% static 'Blog/images/finder.jpg' %}" alt="Card image cap">
                 <div class="card-body">
                     <p class="card-title lead">玩转Mac Finder</p><br><br>
@@ -55,8 +57,8 @@
             </div>
         </div>
 
-        <div class="col-sm-3 text-center">
-            <div class="card" style="width: 18rem; height:31rem;">
+        <div class="col-lg-3 col-md-3 col-sm-3 text-center">
+            <div class="card style="height:31rem;"" >
                 <img class="card-img-top" src="{% static 'Blog/images/1.jpg' %}" alt="Card image cap">
                 <div class="card-body">
                     <br>
@@ -67,8 +69,8 @@
         </div>
 
 
-        <div class="col-sm-3 text-center">
-            <div class="card" style="width: 18rem; height:31rem;">
+        <div class="col-lg-3 col-md-3 col-sm-3 text-center">
+            <div class="card style="height:31rem;"" >
                 <img class="card-img-top" src="{% static 'Blog/images/alfred.jpg' %}" alt="Card image cap">
                 <div class="card-body">
                     <p class="card-title lead">玩转Mac Alfred</p><br><br>
@@ -78,6 +80,69 @@
         </div>
 
 
+    </div>
+</div>
+{% endcomment %}
+
+<div class="row">
+    <div class="col-lg-8 col-md-8 col-sm-8 mx-auto">
+
+        <div class="card-columns text-center">
+            <div class="card">
+                <img class="card-img-top" src="{% static 'Blog/images/django.jpg' %}" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">用Django打造自己的博客网站--基于Django 2.0和Python 3.6</h5>
+                    <a href="#" class="btn btn-primary">Enter Tutorial</a>
+                </div>
+            </div>
+            <div class="card">
+                <img class="card-img-top" src="{% static 'Blog/images/postgresql.png' %}" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">深入浅出PostgreSQL数据库</h5><br>
+                    <a href="#" class="btn btn-primary">Enter Tutorial</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <img class="card-img-top" src="{% static 'Blog/images/vuforia.jpg' %}" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">Vuforia AR开发完全指南</h5><br><br>
+                    <a href="#" class="btn btn-primary">Enter Tutorial</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br><br>
+
+
+<div class="row">
+    <div class="col-lg-8 col-md-8 col-sm-8 mx-auto">
+        <div class="card-columns text-center">
+            <div class="card">
+                <img class="card-img-top" src="{% static 'Blog/images/finder.jpg' %}" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">玩转Mac Finder</h5>
+                    <a href="#" class="btn btn-primary">Enter Tutorial</a>
+                </div>
+            </div>
+            <div class="card">
+                <img class="card-img-top" src="{% static 'Blog/images/macbook.png' %}" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">Mac实用操作技巧</h5>
+                    <a href="#" class="btn btn-primary">Enter Tutorial</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <img class="card-img-top" src="{% static 'Blog/images/alfred.jpg' %}" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">玩转Mac Alfred</h5>
+                    <a href="#" class="btn btn-primary">Enter Tutorial</a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

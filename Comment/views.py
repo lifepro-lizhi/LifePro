@@ -10,8 +10,7 @@ from .models import Comment
 from .forms import CommentForm
 from Users.models import UserInfo
 import time
-from datetime import datetime, timezone
-from django.utils import timezone
+from datetime import datetime
 
 # Create your views here.
 
@@ -33,21 +32,20 @@ from django.utils import timezone
 def CommentCreate(request, pk):
     user_info = UserInfo.objects.get(user=request.user)
     # 上一次评论的时间与现在时间的差值
-    interval = timezone.now() - user_info.last_comment_datetime
+    interval = timezone.localtime(timezone.now()) - user_info.last_comment_datetime
     # 如果是第一次评论，或者评论间隔已经大于5分钟，则可以评论
-    print("last: {}".format(user_info.last_comment_datetime))
-    print("now: {}".format(timezone.now()))
-    print("interval: {}".format(interval.total_seconds()))
+    # print("last: {}".format(user_info.last_comment_datetime))
+    # print("now: {}".format(timezone.now()))
+    # print("interval: {}".format(interval.total_seconds()))
     if interval.total_seconds() > 60 * 5:
         blog = get_object_or_404(Blog, pk=pk)
         if request.method == 'POST':
             form = CommentForm(request.POST)
             if form.is_valid():
-                print("form is valid")
                 comment = Comment()
                 comment.user = request.user
                 comment.content = form.cleaned_data['content']
-                comment.create_date = timezone.now()
+                comment.create_date = timezone.localtime(timezone.now())
 
                 content_type = ContentType.objects.get_for_model(Blog)
                 comment.content_type = content_type
@@ -56,11 +54,8 @@ def CommentCreate(request, pk):
                 parent_id = request.POST.get('parent_id')
                 if parent_id is not None:
                     parent_comment = Comment.objects.filter(id=parent_id)
-                    print("parent_comment success")
                     if parent_comment.exists():
-                        print("parent_comment exists")
                         comment.parent = parent_comment.first()
-                        print(comment.parent.content)
                     else:
                         comment.parent = None
                 else:
@@ -73,7 +68,7 @@ def CommentCreate(request, pk):
                 else:
                     messages.success(request, '评论提交成功！')
 
-                user_info.last_comment_datetime = timezone.now()
+                user_info.last_comment_datetime = timezone.localtime(timezone.now())
                 user_info.save(update_fields=['last_comment_datetime'])
 
                 return redirect(reverse('blog:blog_detail', kwargs={'pk': pk, }))
