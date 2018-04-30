@@ -351,6 +351,16 @@ class BlogDetailView(FormMixin, DetailView):
                 category_dict = category.django_blog_category
             elif instance.series_keyword == 'postgresql':
                 category_dict = category.postgresql_category
+            elif instance.series_keyword == 'mac_tips':
+                category_dict = category.mac_tips_category
+            elif instance.series_keyword == 'mac_finder_category':
+                category_dict = category.mac_finder_category
+            elif instance.series_keyword == 'mac_alfred':
+                category_dict = category.mac_alfred_category
+            elif instance.series_keyword == 'vuforia':
+                category_dict = category.vuforia_category
+            elif instance.series_keyword == 'japanese':
+                category_dict = category.japanese_category
 
             if str(int(instance.series_index) - 1) in category_dict:
                 previous_title = category_dict[str(int(instance.series_index) - 1)]
