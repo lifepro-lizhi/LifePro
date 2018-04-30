@@ -364,26 +364,20 @@ class BlogDetailView(FormMixin, DetailView):
 
             if str(int(instance.series_index) - 1) in category_dict:
                 previous_title = category_dict[str(int(instance.series_index) - 1)]
-                print("previous: {}".format(previous_title))
                 try:
                     previous_pk = Blog.objects.get(title__icontains=previous_title).pk
                     context['previous_title'] = previous_title
                     context['previous_pk'] = previous_pk
-                    print("previous find")
                 except ObjectDoesNotExist:
-                    print("previous ObjectDoesNotExist")
                     pass
 
             if str(int(instance.series_index) + 1) in category_dict:
                 next_title = category_dict[str(int(instance.series_index) + 1)]
-                print("next: {}".format(next_title))
                 try:
                     next_pk = Blog.objects.get(title__icontains=next_title).pk
                     context['next_title'] = next_title
                     context['next_pk'] = next_pk
-                    print("find next")
                 except ObjectDoesNotExist:
-                    print("next ObjectDoesNotExist")
                     pass
         else:
             is_series = False

@@ -48,8 +48,7 @@ mac_tips_category = {
     "15": "Mac查询利器--Spotlight",
     "16": "Mac上的截图设置",
     "17": "26个iPhone使用技巧",
-    "18": "15个iOS 11的隐藏特性",
-    "19": "关于iPhone X，你需要知道这10点",
+    "18": "关于iPhone X，你需要知道这10点",
 }
 
 mac_finder_category = {
