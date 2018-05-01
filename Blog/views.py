@@ -348,18 +348,25 @@ class BlogDetailView(FormMixin, DetailView):
             is_series = True
             if instance.series_keyword == 'django_blog':
                 category_dict = category.django_blog_category
+                context['category_name'] = "Django博客教程"
             elif instance.series_keyword == 'postgresql':
                 category_dict = category.postgresql_category
+                context['category_name'] = "深入浅出PostgreSQL数据库"
             elif instance.series_keyword == 'mac_tips':
                 category_dict = category.mac_tips_category
+                context['category_name'] = "Mac实用操作技巧"
             elif instance.series_keyword == 'mac_finder_category':
                 category_dict = category.mac_finder_category
+                context['category_name'] = "玩转Mac Finder"
             elif instance.series_keyword == 'mac_alfred':
                 category_dict = category.mac_alfred_category
+                context['category_name'] = "玩转Mac Alfred"
             elif instance.series_keyword == 'vuforia':
                 category_dict = category.vuforia_category
+                context['category_name'] = "Vuforia AR开发完全指南"
             elif instance.series_keyword == 'japanese':
                 category_dict = category.japanese_category
+                context['category_name'] = "日本語文法"
 
             if str(int(instance.series_index) - 1) in category_dict:
                 previous_title = category_dict[str(int(instance.series_index) - 1)]
@@ -395,14 +402,34 @@ class BlogDetailView(FormMixin, DetailView):
         # END: 评论
 
         # START: Sidebar目录
-        if instance.is_series:
-            is_series = True
-            if instance.series_keyword == 'django_blog':
-                category_dict = category.django_blog_category
-                context['category_name'] = "Django博客教程"
-            elif instance.series_keyword == 'postgresql':
-                category_dict = category.postgresql_category
-                context['category_name'] = "深入浅出PostgreSQL数据库"
+        # if instance.is_series:
+        #     is_series = True
+        #     if instance.series_keyword == 'django_blog':
+        #         category_dict = category.django_blog_category
+        #         context['category_name'] = "Django博客教程"
+        #     elif instance.series_keyword == 'postgresql':
+        #         category_dict = category.postgresql_category
+        #         context['category_name'] = "深入浅出PostgreSQL数据库"
+        #     elif instance.series_keyword == 'vuforia':
+        #         category_dict = category.postgresql_category
+        #         context['category_name'] = "深入浅出PostgreSQL数据库"
+        #     elif instance.series_keyword == 'postgresql':
+        #         category_dict = category.postgresql_category
+        #         context['category_name'] = "深入浅出PostgreSQL数据库"
+        #     elif instance.series_keyword == 'postgresql':
+        #         category_dict = category.postgresql_category
+        #         context['category_name'] = "深入浅出PostgreSQL数据库"
+        #     elif instance.series_keyword == 'postgresql':
+        #         category_dict = category.postgresql_category
+        #         context['category_name'] = "深入浅出PostgreSQL数据库"
+        #     elif instance.series_keyword == 'postgresql':
+        #         category_dict = category.postgresql_category
+        #         context['category_name'] = "深入浅出PostgreSQL数据库"
+        #     elif instance.series_keyword == 'postgresql':
+        #         category_dict = category.postgresql_category
+        #         context['category_name'] = "深入浅出PostgreSQL数据库"
+
+
 
             # 目录中的blog名称列表
             category_blog_title_list = category_dict.values()
