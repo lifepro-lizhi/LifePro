@@ -57,7 +57,7 @@ class BlogListView(ListView):
         top_reading_list = []
         top_reading_queryset = ReadingInfo.objects.values('object_id').\
                                        annotate(count=Count('object_id')).\
-                                       order_by('-count')[0:11]
+                                       order_by('-count')[0:10]
         for each in top_reading_queryset:
             blog_info = {}
             blog_info['id'] = each['object_id']
@@ -72,7 +72,7 @@ class BlogListView(ListView):
         top_comment_list = []
         top_comment_queryset = Comment.objects.values('object_id').\
                                        annotate(count=Count('object_id')).\
-                                       order_by('-count')[0:11]
+                                       order_by('-count')[0:10]
         for each in top_comment_queryset:
             blog_info = {}
             blog_info['id'] = each['object_id']
@@ -87,7 +87,7 @@ class BlogListView(ListView):
         top_like_list = []
         top_like_queryset = Like.objects.values('object_id').\
                                        annotate(count=Count('object_id')).\
-                                       order_by('-count')[0:11]
+                                       order_by('-count')[0:10]
         for each in top_like_queryset:
             blog_info = {}
             blog_info['id'] = each['object_id']
@@ -143,7 +143,7 @@ class CategoryBlogListView(ListView):
         top_reading_list = []
         top_reading_queryset = ReadingInfo.objects.values('object_id').\
                                        annotate(count=Count('object_id')).\
-                                       order_by('-count')[0:11]
+                                       order_by('-count')[0:10]
         for each in top_reading_queryset:
             blog_info = {}
             blog_info['id'] = each['object_id']
@@ -156,7 +156,7 @@ class CategoryBlogListView(ListView):
         top_comment_list = []
         top_comment_queryset = Comment.objects.values('object_id').\
                                        annotate(count=Count('object_id')).\
-                                       order_by('-count')[0:11]
+                                       order_by('-count')[0:10]
         for each in top_comment_queryset:
             blog_info = {}
             blog_info['id'] = each['object_id']
