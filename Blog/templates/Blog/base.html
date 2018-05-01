@@ -47,15 +47,15 @@
                     <li class="nav-item">
                         <a href="{% url 'blog:category_blog_list' 'Network' %}" class="nav-link text-white hvr-float-shadow">Network</a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a href="{% url 'blog:category_blog_list' 'OpenGL' %}" class="nav-link text-white hvr-float-shadow">OpenGL</a>
-                    </li>
-                    <li class="nav-item">
+                    </li> -->
+                    <!-- <li class="nav-item">
                         <a class="nav-link text-white hvr-float-shadow" href="{% url 'blog:category_blog_list' 'C' %}" >C/C++</a>
-                    </li>
-                    <li class="nav-item">
+                    </li> -->
+                    <!-- <li class="nav-item">
                         <a class="nav-link text-white hvr-float-shadow" href="{% url 'blog:category_blog_list' 'UNIX' %}" >UNIX</a>
-                    </li>
+                    </li> -->
                     <li class="nav-item">
                         <a href="{% url 'blog:category_blog_list' 'Unity' %}" class="nav-link text-white hvr-float-shadow">Unity</a>
                     </li>
@@ -64,6 +64,9 @@
                     </li>
                     <li class="nav-item">
                         <a href="{% url 'blog:category_blog_list' 'Japanese'%}" class="nav-link text-white hvr-float-shadow">日本語</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'blog:category_blog_list' 'Others'%}" class="nav-link text-white hvr-float-shadow">其他</a>
                     </li>
                     {% if user.is_superuser %}
                     <li class="nav-item"><a href="{% url 'blog:blog_create' %}" class="nav-link">New</a></li>

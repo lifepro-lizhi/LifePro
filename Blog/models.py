@@ -30,7 +30,7 @@ CATEGORY_CHOICES = (
     ('English', 'English'),
     ('Japanese', 'Japanese'),
     ('French', 'French'),
-    ('Writing', 'Writing'),
+    ('Others', 'Others'),
 )
 
 
