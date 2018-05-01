@@ -11,8 +11,9 @@
         <div class="text-center">
             {# 如果用户没有上传头像，则使用默认头像 #}
             {% if user_info.portrait == "" %}
-                <img src="/media/Blog/portraits/user-512.png" class="rounded text-center" alt="user portrait" width="200px">
+                <img src="{% static 'Blog/images/logo/user_icon.png' %}" class="rounded text-center" alt="user portrait" width="200px">
             {% else %}
+            <p>{{ user_info.portrait.url }}</p>
                 <img src="{{ user_info.portrait.url }}" class="rounded text-center" alt="user portrait" width="200px">
             {% endif %}
         </div>

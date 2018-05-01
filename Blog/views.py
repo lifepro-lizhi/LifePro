@@ -336,8 +336,8 @@ class BlogDetailView(FormMixin, DetailView):
 
         reading_info.content_type = ContentType.objects.get_for_model(Blog)
         reading_info.object_id = instance.id
-
         reading_info.blog_name = instance.title
+        reading_info.time = timezone.localtime(timezone.now())
 
         reading_info.save()
         # END: 文章阅读信息统计
