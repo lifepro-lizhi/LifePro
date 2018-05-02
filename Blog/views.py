@@ -195,6 +195,7 @@ class SearchBlogListView(ListView):
 
     def get_queryset(self):
         global search_item
+        print("^^^^^^^^^^^^ {}".format(search_item))
         search_content = self.request.GET.get('q')
 
         # 在切换搜索下一面时，此时的self.request.GET.get('q')为None，因此这里将搜索的词条保存在全局变量search_item中
