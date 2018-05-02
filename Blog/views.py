@@ -344,6 +344,7 @@ class BlogDetailView(FormMixin, DetailView):
 
         # START: 系列教程
         # 如果文章是系列教程
+        category_dict = []
         if instance.is_series:
             is_series = True
             if instance.series_keyword == 'django_blog':
