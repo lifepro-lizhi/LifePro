@@ -249,7 +249,7 @@
             <div class="search-box">
                 <form method="get" action="{% url 'blog:search_blog_list' %}">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Enter search keyword" aria-label="Search term" aria-describedby="basic-addon" name="q" value="{{ request.GET.q }}">
+                        <input type="text" class="form-control" placeholder="Enter search keyword" aria-label="Search term" aria-describedby="basic-addon" name="q" value="{{ search_item }}">
                         <div class="input-group-append">
                             <button class="btn btn-primary" type="submit">Search</a>
                         </div>

@@ -184,22 +184,31 @@ class CategoryBlogListView(ListView):
         ordering = ('publish_date')
 
 
+# 设置全局变量search_item，为了在网页中进行搜索显示后，切换搜索页面时将刚刚搜索的词条保存在搜索栏中
+search_item = ''
+
+
 class SearchBlogListView(ListView):
     model = Blog
     template_name = 'Blog/blog_list.html'
     context_object_name = 'blogs'
 
     def get_queryset(self):
+        global search_item
         search_content = self.request.GET.get('q')
-        return Blog.objects.filter(draft__exact=False).filter(Q(title__icontains=search_content) | Q(content__icontains=search_content)).order_by('publish_date')
+
+        # 在切换搜索下一面时，此时的self.request.GET.get('q')为None，因此这里将搜索的词条保存在全局变量search_item中
+        if search_content is not None:
+            search_item = search_content
+        return Blog.objects.filter(draft__exact=False).filter(Q(title__icontains=search_item) | Q(content__icontains=search_item))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        search_content = self.request.GET.get('q')
-        blog_list = Blog.objects.filter(draft__exact=False).filter(Q(title__icontains=search_content) | Q(content__icontains=search_content)).order_by('publish_date')
+        # search_content = self.request.GET.get('q')
+        # blog_list = Blog.objects.filter(draft__exact=False).filter(Q(title__icontains=search_content) | Q(content__icontains=search_content)).order_by('publish_date')
 
-        paginator = Paginator(blog_list, 5)
+        paginator = Paginator(self.get_queryset().order_by('-publish_date'), 5)
 
         page = self.request.GET.get('page')
         try:
@@ -212,6 +221,46 @@ class SearchBlogListView(ListView):
             blogs_page = paginator.page(paginator.num_pages)
 
         context['blogs_page'] = blogs_page
+
+        # START 侧边栏Read Top 10
+        top_reading_list = []
+        top_reading_queryset = ReadingInfo.objects.values('object_id').\
+                                       annotate(count=Count('object_id')).\
+                                       order_by('-count')[0:10]
+        for each in top_reading_queryset:
+            blog_info = {}
+            blog_info['id'] = each['object_id']
+            blog_info['count'] = each['count']
+            blog_info['title'] = Blog.objects.get(id=each['object_id']).title
+            top_reading_list.append(blog_info)
+        # END 侧边栏Read Top 10
+
+        # START 侧边栏Comment Top 10
+        top_comment_list = []
+        top_comment_queryset = Comment.objects.values('object_id').\
+                                       annotate(count=Count('object_id')).\
+                                       order_by('-count')[0:10]
+        for each in top_comment_queryset:
+            blog_info = {}
+            blog_info['id'] = each['object_id']
+            blog_info['count'] = each['count']
+            blog_info['title'] = Blog.objects.get(id=each['object_id']).title
+            top_comment_list.append(blog_info)
+        # END 侧边栏Read Top 10
+
+        # START 侧边栏Recent Post
+        recent_post_list = []
+        recent_post_queryset = Blog.objects.all().order_by('-publish_date')[0:5]
+        for each in recent_post_queryset:
+            recent_post_list.append(each)
+        # END 侧边栏Recent Post
+
+        context['up_to_current_page_list'] = blogs_page.paginator.page_range[0:(blogs_page.number + 1)]
+        context['top_reading_list'] = top_reading_list
+        context['top_comment_list'] = top_comment_list
+        context['recent_post_list'] = recent_post_list
+        # 将网页中搜索栏的内容置位search_item
+        context['search_item'] = search_item
 
         return context
 
