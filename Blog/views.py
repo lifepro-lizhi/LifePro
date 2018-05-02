@@ -322,6 +322,13 @@ class BlogDetailView(FormMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        x_forwarded_for = self.request.META.get('HTTP_X_FORWARDED_FOR')
+        if x_forwarded_for:
+            ip = x_forwarded_for.split(',')[0]
+        else:
+            ip = self.request.META.get('REMOTE_ADDR')
+        print(">>>>>>>> ip: {}".format(ip))
+
         instance = Blog.objects.get(id=self.kwargs['pk'])
         # comments = Comment.objects.filter_by_instance(instance)
         comments = Comment.objects.filter(content_type=ContentType.objects.get_for_model(Blog),
