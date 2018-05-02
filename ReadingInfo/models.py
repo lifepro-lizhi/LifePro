@@ -12,6 +12,7 @@ class ReadingInfo(models.Model):
     blog_name = models.CharField(max_length=255, default="")
     did_like = models.BooleanField(default=False)
     user_comment_count = models.IntegerField(default=0)
+    ip = models.CharField(max_length=255, null=True)
     # blog = models.ForeignKey(Blog, related_name='reading_info',
     #                          on_delete=models.CASCADE)
 
