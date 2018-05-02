@@ -13,7 +13,6 @@
             {% if user_info.portrait == "" %}
                 <img src="{% static 'Blog/images/logo/user_icon.png' %}" class="rounded text-center" alt="user portrait" width="200px">
             {% else %}
-            <p>{{ user_info.portrait.url }}</p>
                 <img src="{{ user_info.portrait.url }}" class="rounded text-center" alt="user portrait" width="200px">
             {% endif %}
         </div>

@@ -355,7 +355,7 @@ class BlogDetailView(FormMixin, DetailView):
             elif instance.series_keyword == 'mac_tips':
                 category_dict = category.mac_tips_category
                 context['category_name'] = "Mac实用操作技巧"
-            elif instance.series_keyword == 'mac_finder_category':
+            elif instance.series_keyword == 'mac_finder':
                 category_dict = category.mac_finder_category
                 context['category_name'] = "玩转Mac Finder"
             elif instance.series_keyword == 'mac_alfred':
@@ -413,7 +413,7 @@ class BlogDetailView(FormMixin, DetailView):
             elif instance.series_keyword == 'mac_tips':
                 category_dict = category.mac_tips_category
                 context['category_name'] = "Mac实用操作技巧"
-            elif instance.series_keyword == 'mac_finder_category':
+            elif instance.series_keyword == 'mac_finder':
                 category_dict = category.mac_finder_category
                 context['category_name'] = "玩转Mac Finder"
             elif instance.series_keyword == 'mac_alfred':
