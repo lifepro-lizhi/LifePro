@@ -200,6 +200,7 @@ class SearchBlogListView(ListView):
         # 在切换搜索下一面时，此时的self.request.GET.get('q')为None，因此这里将搜索的词条保存在全局变量search_item中
         if search_content is not None:
             search_item = search_content
+        print("************* {}".format(search_item))
         return Blog.objects.filter(draft__exact=False).filter(Q(title__icontains=search_item) | Q(content__icontains=search_item))
 
     def get_context_data(self, **kwargs):
