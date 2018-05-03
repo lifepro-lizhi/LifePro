@@ -22,6 +22,7 @@ from . import category
 import markdown
 from django.utils.text import slugify
 from markdown.extensions.toc import TocExtension
+from ipware import get_client_ip
 
 
 # Create your views here.

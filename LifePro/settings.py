@@ -24,7 +24,7 @@ SECRET_KEY = '!jwqqi+n&b^9df$cpv&&)j^3%rd6)23qzonc+^)o=arf4tsh%f'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['www.lifepro.site', '47.98.251.240', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['144.202.122.52', 'www.lifepro.site', '47.98.251.240', 'localhost', '127.0.0.1']
 
 
 # Application definition
