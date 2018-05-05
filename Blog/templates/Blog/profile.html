@@ -1,0 +1,44 @@
+{% extends "Blog/base.html" %}
+
+{% block head_style_css %}
+{% load static %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>LifePro</title>
+
+
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" href="{% static 'Blog/css/blog_page_style.css' %}">
+
+{% endblock %}
+
+{% block  content %}
+    <br><br><br>
+
+    <div class="row mx-auto">
+        <div class="mb-3 col-xl-8 col-lg-8 col-md-8 col-sm-8 offset-lg-2 offset-md-2 offset-sm-2">
+            <img src="http://ouvsr6js4.bkt.clouddn.com/self%202.JPG" class="img-fluid float-left mr-3 about-img rounded img-thumbnail" width="400px">
+
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                <a class="nav-link active" href="#">中文</a>
+                </li>
+
+                <li class="nav-item">
+                <a class="nav-link" href="#">English</a>
+                </li>
+
+                <li class="nav-item">
+                <a class="nav-link" href="#">日本語</a>
+                </li>
+            </ul>
+
+            <p>{{ profile_content_chinese|safe }}</p>
+            <br>
+        </div>
+    </div>
+
+{% endblock %}

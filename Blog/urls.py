@@ -29,5 +29,8 @@ urlpatterns = [
     # Tutorials页面
     url(r'^tutorialspage/$', views.TutorialsView, name='tutorials_view'),
 
-    url(r'^test/$', views.test, name='test'),
+    # 个人Profile
+    url(r'^selfprofile/$', views.ProfileDetailView, name='profile_view'),
+
+
 ]
