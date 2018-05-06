@@ -632,18 +632,53 @@ def test(request):
 
 def ProfileDetailView(request):
     profile_chinese = '''
-嗨，大家好，欢迎光临我的小站*LifePro*。我叫李智，是一名软件工程师，毕业于武汉一所985高校的通信工程专业，技术狂热范，学习爱好者，重度主机游戏迷。参加工作多年以来，在上市大厂做过螺丝钉，在小公司做过技术经理，也创过业，在创业公司担任过CTO，一直以来都是走的技术路线，忙碌并快乐着。执着于技术，常常觉得编程给自己带来的快乐比玩主机游戏都多。从事研发的领域很广，做过网络协议，深入过嵌入式开发，折腾过游戏引擎，玩儿过OpenGL，研究过Web框架和数据库，现在专注的领域为机器学习和计算机视觉，并且坚定是以后自己发展和研究的方向。
+嗨，大家好，欢迎光临我的小站*LifePro*。我叫李智，是一名软件工程师，毕业于武汉一所985高校的通信工程专业，技术狂热范，学习爱好者，Mac重度用户，主机游戏迷。参加工作多年以来，在大厂里当过螺丝钉，在小企业里做过技术经理，也创过业，在创业公司担任过CTO，一直以来都是走的技术路线，忙碌并快乐着。执着于技术，常常觉得编程给自己带来的快乐比玩儿游戏都多。从事过研发的领域比较广，做过网络协议，搞过嵌入式开发，折腾过游戏引擎，玩儿过OpenGL，研究过Web框架和数据库，现在专注的领域为机器学习和计算机视觉，并且坚定以此为以后自己发展和努力的方向。
 
-以前一直以为做技术能给自己带来编码的快乐和可观的收入就够了，但是在步入自己的而立之年以后，我发现自己在技术领域并没有留下什么实质性的影响力，并且发现了自己关于学习方法方面的一些问题。在工作之余，我不断学习过其他领域的知识，但是随着时间的迁移，我发现这些技能并没有随着时间的累积而有非常大的提升，也就是说没有达到称得上算是专业的程度。自学生时代起就学习日语和练习吉他，之前也学过一段时间绘画和摄影，为了学习木雕买过很多书籍和很专业的设备，钢琴也购置了四五年，断断续续的练习着，也曾将经济学作为自己的第二研究领域。但是多年以来，这些技能并没有得到很深入的发展，并没有达到自己期望的专业程度。经过反思，发现了自己在技能学习上一个很大的缺点---没有系统性的专业化训练。为了改正这个缺点，想了很多，最终找到了最适合自己的方法---写作。通过写作，我可以不断的将自己所学过的知识进行输出，而这个输出的过程也是对自己头脑中知识网络的一个整理、归纳和强化，并且他人可以从自己的文章中获得不同程度的提高，也是对自己辛苦写作的一种肯定。
+以前一直以为做技术能给自己带来编码的快乐和可观的收入就足够了，但是在步入而立之年以后，我发现自己在技术领域并没有留下什么实质性的影响力，并且发现了自己关于学习方法方面的一些问题。在工作之余，我在不断学习着其他领域的知识，但是随着时间的迁移，我发现这些技能并没有随着时间的累积而有非常大的提升，也就是说没有达到称得上算是专业的程度。自学生时代起就学习日语和练习吉他，工作之后也学过绘画和摄影，为了学习木雕买过很多书籍和很专业的设备，钢琴也购置了四五年，断断续续的练习着，也曾将经济学作为自己的第二研究领域。但是多年以来，这些技能并没有得到很深入的发展，并没有达到自己期望的专业程度。经过反思，找到了自己在技能学习上一个很大的缺点---没有系统性的专业化训练。为了改正这个缺点，想了很多，最终找到了最适合自己的方法---写作。通过写作，我可以不断的将自己所学过的知识进行输出，不断的将自己所掌握的知识像讲故事一样讲述给别人听，而这个持续输出的过程也是对自己头脑中知识网络的整理、归纳和强化，并且他人可以从自己的文章中获得不同程度的提高，也是对自己写作的一种肯定。知识掌握的过程中最难的不是自己弄明白，而是弄明白之后还要能清楚的教授给别人。现在我坚信着一句古训：The best way to Learn is to Teach。
 
-在自己的而立之年，学习不再是一种负担，更不是一种用来赚钱的手段，而是在不断提升自己的过程中寻求满足和快乐的一种方式，做技术也是如此。自己很崇敬和尊重的翻译大师许渊冲，快100岁高龄还在不停的写作、翻译和学习，坚持做自己热爱的事情并坚持了一辈子。许老曾说过，对自己热爱的事情，要**尽其所能，得其所好**。我想这也是我们年轻人应该追求的学习和生活态度。
+在自己的而立之年，学习不再是一种负担，也不是一种用来赚钱的手段，而是在不断提升自己的过程中寻求满足和快乐的一种方式。做技术同样也是如此，在而立之年这个年纪，做技术并不完全是为了金钱，更重要的是一份坚持的态度，分享的快乐，和不断学习的满足感。自己很崇敬和尊重的翻译大师许渊冲，快100岁高龄了还在不停的写作、翻译和学习，坚持做自己热爱的事情并坚持了一辈子。许老曾说过，对自己热爱的事业，要**尽其所能，得其所好**。我想这也是我们年轻人应该追求的学习和生活态度。
 
-因此我做了这个网站，用来通过写作输出各种教程，一来让自己学习过的技能更加专业和系统，二来给自己增加不断学习的动力。现在我几乎每天早上6点起来写作，工作之余的大部分业余时间都用来写作和学习新领域的知识。短期和长期内计划增加的写作领域还有网络协议、C/C++、UNIX、OpenGL、Unity、STM32、音乐理论、经济学、法语、摄影、厨艺、主机游戏评测等等。虽然跨度很广，领域也很多，但是我相信只要不断学习，坚持写作，终会能够做到在不同领域进行持续的输出。
+为此我做了这个网站，用来通过写作输出各种教程，一来让自己学习过的技能更加专业和系统，二来给自己不断增加学习的动力，而且可以尽自己的一点微薄之力帮助到一些需要成长的人。现在我几乎每天早晨6点起来写作，工作之余的大部分业余时间都用来写作和学习新领域的知识。短期和长期内计划增加的写作领域还有网络协议、计算机视觉、C/C++、UNIX、OpenGL、Unity、STM32、TensorFlow、音乐理论、经济学、法语、摄影、厨艺、主机游戏评测等等。虽然跨度很广，领域也很多，但是我相信只要努力不断学习，坚持写作，终会能够做到在不同领域进行持续不断的输出。
 
 希望通过写作，能遇到更好、更专业的自己，也期待能认识到更多的朋友。
 
 Life is more Professional than yesterday。
 '''
+
+    profile_english = '''
+Hi,welcome to my *LifePro* site.My name is Li Zhi,a software programmer,a geeker,a learning fan,a Mac fanatical user,and a severe TV gamer.Graduated from the major of communication engineering at a 985 university in Wuhan,China.From the years since started work,I've been an employee in big company,a technical manager in small private enterprise,and been CTO in a start-up company.All these years I've been concentrating on technology fields,work hard but most importantly feel happy at the mean time.I love coding,quite a few times I feel like doing the coding is more interseting than playing video games.And I've been wrting programs in quite a few fields using different kinds of languages,including network protocols,embeded system,game engine,OpenGL,Django Web framework and PostgreSQL database.Nowadays I put all my focus in machine learning and computer vision,and insist this is the working field that will last in my future.
+
+All these years I think do the coding is just for fun and money.That's it,nothing more.But when I step into my 30's,I realize that I haven't left any impressive influence in any tech field,and I've found some really serious problems in my study methods.I have been learning knowledge in different kinds of fields during my spare time after work,but as the time flying by,I didn't feel some very big impressive improvment in these areas,not even talk about been professional.I've been studying Japanese and playing guitar since college time,and have learned drawing and photographing during my work days,and in order to learn wooden craft I even bought many books and professionl tools.Piano have been put in my room for about 4 or 5 years,but not get continuous training.At the same time,I read ecnomics books and consider it as my secondary research field.But years have been passed,I'm still far away from being professional in those subjects.
+
+In order to get rid of the current situation,I've done a lot of think,and finaly I found the most principal reason---not been taking systematic and professional training.Mostly the same time I've found the most efficient way of how to sovle that---by writing.Through writing,I can take the knowledge in my head into continuous outputs,and let thest continuous outputs become a way of teaching.These whole stpes also is a way of orgnizing, generalizing and enhancing the knowledge that I've learned.Meantime,it's also an honor that other people who needs help can take some pratical advice from my blogs.The most hard part of completely mastering the knowledge of one field is not the understanding by yourself,but the teaching and letting others to grasp the key point by your own words.So now I believe in the well-known old Latin principle Docendo discimus---"The best way to Learn is to Teach".
+
+Under my 30's,studying is not a burden,not even a way of making money,but a way of satisfying and entertaining by improving myself.The same reason for writing code,it's an attitude of persistence,a happiness of sharing,and a way of satisfying by learning.The famous translator Xu Yuanchong,whom I respect and esteem very much is still constantly writing,translating and learning even near his 100's.He once said that to treat the things that we love to do,we must **do our best,get we want most**.I think this is the real attitude of facing life and studying at the best age like us.
+
+So I build up this website,outputting all kinds of tutorials that I've learned by writing blogs.First,this can help me getting more systematic and professional trainings.Second,this can help me gaining constantly motivation for learning new things.Moreover,it's an honor for me to do some little job to help those who needs help for their level improvment.Nowadays I almost wake up 6:00 AM every morning to start writing,and spend most of my spare time on writing and learning.The short and long term of writing schedule including network protocol,computer vision,C/C++,UNIX,OpenGL,Unity,STM32,TensorFlow,musical theory，ecnomics,French,photographing,cooking and TV game reviews,etc.Although these are lots of work,but as long as I writing hard and learning diligently,I believe I can eventually keep continuous outputs on different kinds of subjects.
+
+Hopefully,I expect to build up a better and more professional myself by writing,and I'd love to make more and more friends through this little website.
+
+Thanks again for visiting my site :-)
+
+Life is more Professional than yesterday.
+    '''
+
+    profile_japanese = '''
+こんにちは、私のLifeProサイトへようこそ！私の名前はりちで、ソフトウェアエンジニアです。通信エンジニアリング専攻で、武漢の985大学を卒業した。技術ファン、学習愛好家、Macのヘビーユーザー、コンソールゲームのファンを抱えています。長年勤務以来、大手のスクリューとして、中小企業のテクニカルマネージャーとして、スタートアップ企業のCTOとしても働いていました。テクノロジの道を歩いていると、懸命に働いた時に楽を感じている。テクノロジーに従うと、コンソールゲームをするよりプログラミングが私にとって楽しいと感じることがよくあります。研究開発の領域は多いのは、ネットワークプロトコル、組み込み開発、ゲームエンジン、OpenGL、Django Webフレームワークとデータベースの研究を含んでいる。今は機械学習とコンピュータビジョンに焦点を当てています。これは将来の自己開発と勤勉の方向と思います。
+
+以前に、私は技術を使ってプログラミングをするに幸福と利益をもたらすと思っていましたが、今年私の30歳に入り込んた後、技術分野に大きな影響を与えずに見えませんでした。同時に学習方法に関する自身の質問はあります。暇な時間には、私は他の知識分野についても常に学んでいますが、時間が経つにつれて、これらのスキルは時間が経つにつれて改善されない、つまりプロとしてはみなされていません。私は学生時代から日本語を学んだり、ギターを練習したり、仕事の後で絵画や写真撮影も学びました。木彫りを学ぶために、たくさんの本やプロの機器を買いました。ピアノは5年間も購入されており、断続的に演奏されています。さらに経済学を第二の研究領域にするために、たくさんの本も読んでいます。
+
+しかし、長年にわたり、これらのスキルは深く発展せず、期待されたのプロフェッショナリズムのレベルに達していません。再考した後、私はスキル学習に大きな不利をもたらしましたーーー体系的な専門訓練はありません。この欠点を解消するために、私はたくさんを考えて、最終的には自分にとって最適な方法を見つけましたーーー執筆ことだ。執筆を通して、私の学んだものを引き続き輸出し、その輸出について他人に絶えず伝えることができます。 そんなの過程に私は誘導的で激化しているものもあれば、自分の記事からさまざまな人のレベルの改善を得ることもできますし、自分の文章を肯定するものでもあります。知識習得の過程で最も難しいのことは自分自身で理解するのではなく、それをはっきりと理解し、自身の言葉を使いて他人に教えることです。今私は古代の教訓を信じている：学ぶに最も良い方法は教えることです。
+
+自分の３０歳に、学習はもはや負担ではなく、さらにお金を稼ぐ手段でもなく、常に自分自身を改善する過程で満足と幸福を求める方法です。同じことで、テクノロジーはお金のためだけではなく、永続的な態度、幸福の共有、そして継続的な学習の満足度が重要です。許淵衝、私は尊重する翻訳者、100歳も近いにまだ執筆、翻訳、学習しています。彼は愛しすることを強く続けているます。彼はかつて、愛していることに最善を尽くし、自分が望むものを手に入ればと言った。それは私みたいの若者が追求すべき学習と人生の態度でもあると思います。
+
+この目的のために、私はこのウェブサイトを作成した、さまざまなチュートリアルを出力します。まずは専門的体系的に学んだスキルを身に付けさせて、次に学習のモチベーションを高めももらえます。さらに、成長するに必要な建議が欲しいの人々に助けてくれることに楽を感じます。今私はほとんど毎朝6時に起きて執筆します。空き時間のほとん執筆をして、新しい知識を学んでいます。短期および長期の執筆の計画に、ネットワークプロトコル、コンピュータビジョン、C/C++、UNIX、OpenGL、Unity、STM32、TensorFlow、音楽理論、経済学、フランス語、写真、料理、コンソールゲーム評価などを含んでいる。分野と範囲が多いのですが、私は引き続き学び、執筆し続けると、最終的には異なる分野で継続的な成果を達成することができます。
+
+私は執筆を通して、自分をより良く、よりプロな自身に出会えることを願っています。もっと多くの友達を見ることも楽しみにしています。
+
+Life is more Professional than yesterday。
+'''
+
     profile_content = markdown.Markdown(extensions=[
                                          'markdown.extensions.extra',
                                          'markdown.extensions.codehilite',
@@ -651,7 +686,8 @@ Life is more Professional than yesterday。
                                          TocExtension(slugify=slugify),
                                      ])
     context = {'profile_content_chinese': profile_content.convert(profile_chinese),
-               'profile_content_english': '',
-               'profile_content_japanese': ''}
+               'profile_content_english': profile_content.convert(profile_english),
+               'profile_content_japanese': profile_content.convert(profile_japanese),
+              }
 
     return render(request, 'Blog/profile.html', context)

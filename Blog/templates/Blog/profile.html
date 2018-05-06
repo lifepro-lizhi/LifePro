@@ -20,23 +20,28 @@
 
     <div class="row mx-auto">
         <div class="mb-3 col-xl-8 col-lg-8 col-md-8 col-sm-8 offset-lg-2 offset-md-2 offset-sm-2">
-            <img src="http://ouvsr6js4.bkt.clouddn.com/self%202.JPG" class="img-fluid float-left mr-3 about-img rounded img-thumbnail" width="400px">
+            <img src="http://ouvsr6js4.bkt.clouddn.com/my_photo%20copy.JPG" class="img-fluid float-left mr-3 about-img rounded-circle img-thumbnail" width="400px">
 
             <ul class="nav nav-tabs">
                 <li class="nav-item">
-                <a class="nav-link active" href="#">中文</a>
+                    <a class="nav-link active" role="tab" data-toggle="tab" href="#chinese">中文</a>
                 </li>
 
                 <li class="nav-item">
-                <a class="nav-link" href="#">English</a>
+                    <a class="nav-link"  role="tab" data-toggle="tab" href="#english">English</a>
                 </li>
 
                 <li class="nav-item">
-                <a class="nav-link" href="#">日本語</a>
+                    <a class="nav-link"  role="tab" data-toggle="tab" href="#japanese">日本語</a>
                 </li>
             </ul>
 
-            <p>{{ profile_content_chinese|safe }}</p>
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="chinese"><br>{{ profile_content_chinese|safe }}</div>
+                <div role="tabpanel" class="tab-pane" id="english"><br>{{ profile_content_english|safe }}</div>
+                <div role="tabpanel" class="tab-pane" id="japanese"><br>{{ profile_content_japanese|safe }}</div>
+            </div>
+            {# <p>{{ profile_content_chinese|safe }}</p> #}
             <br>
         </div>
     </div>
