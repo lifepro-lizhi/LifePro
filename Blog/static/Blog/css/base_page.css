@@ -49,3 +49,7 @@
 .show>.dropdown-menu{
     margin-top: initial;
 }
+
+li a{
+    font-family: Arial;
+}

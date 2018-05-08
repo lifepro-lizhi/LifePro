@@ -7,6 +7,8 @@
     <body>
         {% if error == 'same_id' %}
         <h3>已经有相同的用户名存在！请返回<a href="{% url 'blog:blog_list' %}">主页</a>重新注册</h3>
+        {% elif error == 'same_email' %}
+        <h3>这个邮箱已经被使用啦！换一个邮箱注册试试!请返回<a href="{% url 'blog:blog_list' %}">主页</a>重新注册</h3>
         {% elif error == 'empty_input'%}
         <h3>用户名、密码和Email不能为空！请返回<a href="{% url 'blog:blog_list' %}">主页</a>重新注册</h3>
         {% endif %}

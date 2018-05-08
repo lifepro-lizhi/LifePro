@@ -54,6 +54,10 @@ def UserRegister(request):
             context = {'error': 'empty_input'}
             return render(request, 'Users/register_failed.html', context)
 
+        if email and User.objects.filter(email=email).exclude(username=username).exists():
+            context = {'error': 'same_email'}
+            return render(request, 'Users/register_failed.html', context)
+
         user = User(username=username, password=password, email=email)
         user.set_password(password)
         try:
